@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  full_name   String?
+  address     String?
+  email       String        @unique
+  password    String
+  role_id     Int
+  gender      Gender        @relation(fields: [gender_id], references: [id])
+  gender_id   Int
+  transaction Transaction[]
+  branch      Branch        @relation(fields: [branch_id], references: [id])
+  branch_id   Int
+}
+
+model Gender {
+  id          Int    @id @default(autoincrement())
+  gender_name String
+  user        User[]
+}
+
+model Transaction {
+  id                 Int                  @id @default(autoincrement())
+  user               User                 @relation(fields: [user_id], references: [id])
+  user_id            Int
+  date               DateTime             @default(now())
+  total_price        Int
+  total_qty          Int
+  payment_method     Payment_Method       @relation(fields: [payment_method_id], references: [id])
+  payment_method_id  Int
+  payment_amount     Int
+  customer_name      String?
+  payment_change     Int?
+  total_price_ppn    Int?
+  transaction_detail Transaction_Detail[]
+}
+
+model Payment_Method {
+  id          Int           @id @default(autoincrement())
+  method_name String
+  transaction Transaction[]
+}
+
+model Transaction_Detail {
+  id             Int         @id @default(autoincrement())
+  transaction    Transaction @relation(fields: [transaction_id], references: [id])
+  transaction_id Int
+  product        Product     @relation(fields: [product_id], references: [id])
+  product_id     Int
+  qty            Int
+  total_price    Int?
+  cart           Cart        @relation(fields: [cart_id], references: [id])
+  cart_id        Int
+}
+
+model Cart {
+  id                 Int                  @id @default(autoincrement())
+  customer_name      String
+  transaction_detail Transaction_Detail[]
+}
+
+model Product {
+  id                  Int                  @id @default(autoincrement())
+  product_name        String
+  product_group       Product_Group        @relation(fields: [product_group_id], references: [id])
+  product_group_id    Int
+  product_category    Product_Category     @relation(fields: [product_category_id], references: [id])
+  product_category_id Int
+  product_price       Int
+  product_image       String
+  product_description String?
+  transaction_detail  Transaction_Detail[]
+  stock               Stock[]
+  status              Status               @relation(fields: [product_status_id], references: [id])
+  product_status_id   Int
+}
+
+model Product_Group {
+  id                 Int       @id @default(autoincrement())
+  product_group_name String
+  product            Product[]
+}
+
+model Product_Category {
+  id                    Int       @id @default(autoincrement())
+  product_category_name String
+  product               Product[]
+}
+
+model Branch {
+  id          Int     @id @default(autoincrement())
+  branch_name String
+  stock       Stock[]
+  user        User[]
+}
+
+model Stock {
+  id         Int     @id @default(autoincrement())
+  branch     Branch  @relation(fields: [branch_id], references: [id])
+  branch_id  Int
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id Int
+  quantity   Int
+}
+
+model Status {
+  id          Int       @id @default(autoincrement())
+  status_name String?
+  product     Product[]
+}
+
+model Avatar {
+  id    Int    @id @default(autoincrement())
+  image String
+}
+  
