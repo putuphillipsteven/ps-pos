@@ -22,6 +22,12 @@ app.use(
 
 const port: number = Number(process.env.PORT) || 8000;
 
+// Middleware to log each request
+app.use((req, res, next) => {
+	console.log(`[${new Date().toISOString()}] - [${req.method}] - [${req.url}]`);
+	next();
+});
+
 const categoryRoute = require('./route/productCategoryRoute');
 app.use('/category', categoryRoute);
 
