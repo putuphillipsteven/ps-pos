@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import { ChakraProvider, Text } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import {
 	Route,
 	RouterProvider,
@@ -8,11 +8,12 @@ import {
 	createRoutesFromElements,
 } from 'react-router-dom';
 import theme from './theme/theme.ts';
+import MainDashboard from './features/dashboard/main-dashboard.tsx';
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path='/' element={<App />}>
-			<Route path='/dashboard' element={<Text>Test</Text>} />
+			<Route path='/dashboard' element={<MainDashboard />} />
 		</Route>,
 	),
 );
