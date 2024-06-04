@@ -1,36 +1,36 @@
 import { Box, HStack, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
-export const SideNavLink = (props: any) => {
-	const navigate = useNavigate();
+interface SideNavLinkProps {
+	to: string;
+	icon: React.ReactElement;
+	text: string;
+}
+
+export const SideNavLink = ({ icon, text, to }: SideNavLinkProps) => {
+	const pathname = useLocation().pathname;
 	return (
 		<Box
-			w={'100%'}
+			w={'10em'}
 			h={'2.5em'}
 			display={'flex'}
 			flexDir={'row'}
 			borderRadius={'0.5em'}
 			transition={'transform .3s'}
+			bgColor={pathname === to ? 'primary-content' : 'transparent'}
+			boxShadow={pathname === to ? 'md' : 'none'}
 			_hover={{
-				bgColor: 'secondary',
-				boxShadow: 'lg',
-				transform: 'scale(1.05)',
+				bgColor: 'primary-content',
 			}}
-			onClick={() => navigate(props?.to)}
 			cursor={'pointer'}
 		>
-			<HStack
-				spacing={'1em'}
-				boxShadow={props?.order ? 'lg' : 'none'}
-				bgColor={props?.order ? '#F99B2A' : 'transparent'}
-				w={'100%'}
-				borderRadius={'.5em'}
-				p={'.65em'}
-				cursor={'pointer'}
-			>
-				<Box color={'white'}>{props?.icon}</Box>
-				<Box color={'white'}>
-					<Text as={props?.order ? 'b' : 'b'}>{props?.text}</Text>
+			<HStack spacing={'1em'} w={'100%'} borderRadius={'.5em'} p={'.65em'} cursor={'pointer'}>
+				<Box color={pathname === to ? 'primary' : 'text-primary'}>{icon}</Box>
+				<Box color={pathname === to ? 'primary' : 'text-primary'}>
+					<Link to={to}>
+						<Text as={'b'}>{text}</Text>
+					</Link>
 				</Box>
 			</HStack>
 		</Box>

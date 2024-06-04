@@ -12,22 +12,27 @@ export default function SideNav() {
 			top={'0'}
 			w={'100%'}
 			h={'100%'}
-			bgColor={'red.400'}
+			bgColor={'base-100'}
+			display={'flex'}
 			p={'3em 1em 1em 1em'}
 			spacing={'3.75em'}
+			alignItems={'center'}
+			justifyContent={'space-between'}
 		>
 			<Box>
 				<Image src={cklogo} w={'9.75em'} />
 			</Box>
-			<VStack w={'100%'} spacing={'1.5em'} align={'flex-end'}>
-				<SideNavLink text={'Dashboard'} icon={<BsLaptop />} to={'/admin/dashboard'} />
-				<SideNavLink to={'/admin/report'} text={'Report'} icon={<TbReport />} />
-				<SideNavLink text={'Inventory'} to={'/admin/inventory'} icon={<MdOutlineInventory2 />} />
-				<SideNavLink text={'Product'} to={'/admin/product'} icon={<TbBoxSeam />} />
-				<SideNavLink text={'Category'} to={'/admin/category'} icon={<TbCategory2 />} />
-				<SideNavLink text={'Employee'} to={'/admin/category'} icon={<IoIosPeople />} />
+			<VStack w={'100%'} spacing={'1em'} align={'center'}>
+				<SideNavLink text={'Dashboard'} icon={<BsLaptop />} to={'/dashboard'} />
+				<SideNavLink to={'/report'} text={'Report'} icon={<TbReport />} />
+				<SideNavLink text={'Inventory'} to={'/inventory'} icon={<MdOutlineInventory2 />} />
+				<SideNavLink text={'Product'} to={'/product'} icon={<TbBoxSeam />} />
+				<SideNavLink text={'Category'} to={'/category'} icon={<TbCategory2 />} />
+				<SideNavLink text={'Employee'} to={'/category'} icon={<IoIosPeople />} />
 			</VStack>
-			<SideNavLink text={'Log Out'} icon={<BiLogOut />} />
+			<Box mt={'auto'}>
+				<SideNavLink text={'Log Out'} icon={<BiLogOut />} to='#' />
+			</Box>
 		</VStack>
 	);
 }
