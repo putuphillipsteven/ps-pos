@@ -7,8 +7,7 @@ export default function MainReport() {
 			<Heading as={'h2'} fontSize={'2xl'}>
 				Report
 			</Heading>
-			<Box bgColor={'red.100'}>
-				<Text>P</Text>
+			<Box>
 				<Outlet />
 			</Box>
 		</Box>
