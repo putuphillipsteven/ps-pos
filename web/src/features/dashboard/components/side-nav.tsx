@@ -19,16 +19,18 @@ export default function SideNav() {
 			alignItems={'center'}
 			justifyContent={'space-between'}
 		>
-			<Box>
-				<Image src={cklogo} w={'9.75em'} />
-			</Box>
-			<VStack w={'100%'} spacing={'1em'} align={'center'}>
-				<SideNavLink text={'Dashboard'} icon={<BsLaptop />} to={'/dashboard'} />
-				<SideNavLink to={'/report'} text={'Report'} icon={<TbReport />} />
-				<SideNavLink text={'Inventory'} to={'/inventory'} icon={<MdOutlineInventory2 />} />
-				<SideNavLink text={'Product'} to={'/product'} icon={<TbBoxSeam />} />
-				<SideNavLink text={'Category'} to={'/category'} icon={<TbCategory2 />} />
-				<SideNavLink text={'Employee'} to={'/category'} icon={<IoIosPeople />} />
+			<VStack spacing={'3.75em'}>
+				<Box>
+					<Image src={cklogo} w={'9.75em'} h={'3em'} />
+				</Box>
+				<VStack w={'100%'} spacing={'1em'} align={'center'}>
+					<SideNavLink text={'Dashboard'} icon={<BsLaptop />} to={'/dashboard'} />
+					<SideNavLink to={'/dashboard/report'} text={'Report'} icon={<TbReport />} />
+					<SideNavLink text={'Inventory'} to={'#'} icon={<MdOutlineInventory2 />} />
+					<SideNavLink text={'Product'} to={'#'} icon={<TbBoxSeam />} />
+					<SideNavLink text={'Category'} to={'#'} icon={<TbCategory2 />} />
+					<SideNavLink text={'Employee'} to={'#'} icon={<IoIosPeople />} />
+				</VStack>
 			</VStack>
 			<Box mt={'auto'}>
 				<SideNavLink text={'Log Out'} icon={<BiLogOut />} to='#' />

@@ -11,32 +11,32 @@ interface SideNavLinkProps {
 export const SideNavLink = ({ icon, text, to }: SideNavLinkProps) => {
 	const pathname = useLocation().pathname;
 	return (
-		<Box
-			w={'10em'}
-			h={'2.5em'}
-			display={'flex'}
-			flexDir={'row'}
-			borderRadius={'0.5em'}
-			transition={'transform .3s'}
-			bgColor={pathname === to ? 'primary-content' : 'transparent'}
-			boxShadow={pathname === to ? 'md' : 'none'}
-			_hover={{
-				bgColor: 'primary-content',
-				boxShadow: 'md',
-				'& > div > div': {
-					color: 'primary',
-				},
-			}}
-			cursor={'pointer'}
-		>
-			<HStack spacing={'1em'} w={'100%'} borderRadius={'.5em'} p={'.65em'} cursor={'pointer'}>
-				<Box color={pathname === to ? 'primary' : 'text-primary'}>{icon}</Box>
-				<Box color={pathname === to ? 'primary' : 'text-primary'}>
-					<Link to={to}>
+		<Link to={to}>
+			<Box
+				w={'10em'}
+				h={'2.5em'}
+				display={'flex'}
+				flexDir={'row'}
+				borderRadius={'0.5em'}
+				transition={'transform .3s'}
+				bgColor={pathname === to ? 'primary-content' : 'transparent'}
+				boxShadow={pathname === to ? 'md' : 'none'}
+				_hover={{
+					bgColor: 'primary-content',
+					boxShadow: 'md',
+					'& > div > div': {
+						color: 'primary',
+					},
+				}}
+				cursor={'pointer'}
+			>
+				<HStack spacing={'1em'} w={'100%'} borderRadius={'.5em'} p={'.65em'} cursor={'pointer'}>
+					<Box color={pathname === to ? 'primary' : 'text-primary'}>{icon}</Box>
+					<Box color={pathname === to ? 'primary' : 'text-primary'}>
 						<Text as={'b'}>{text}</Text>
-					</Link>
-				</Box>
-			</HStack>
-		</Box>
+					</Box>
+				</HStack>
+			</Box>
+		</Link>
 	);
 };

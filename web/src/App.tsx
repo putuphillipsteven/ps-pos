@@ -17,6 +17,7 @@ export default function App() {
 				display={'flex'}
 				flex={1}
 				flexDir={'column'}
+				rowGap={'3.25em'}
 				backgroundColor={'base-content'}
 			>
 				<NavBar />

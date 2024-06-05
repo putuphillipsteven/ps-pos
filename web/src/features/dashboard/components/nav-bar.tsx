@@ -3,7 +3,7 @@ import { RiNotification3Fill } from 'react-icons/ri';
 
 export default function NavBar() {
 	return (
-		<Flex w={'100%'} alignItems={'center'} justifyContent={'space-between'}>
+		<Flex w={'100%'} h={'3em'} alignItems={'center'} justifyContent={'space-between'}>
 			<HStack spacing={'.5em'}>
 				<Text as={'b'}>12:00</Text>
 				<Text fontWeight={'medium'}>Friday, 16 November 2023</Text>
