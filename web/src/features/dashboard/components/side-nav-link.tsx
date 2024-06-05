@@ -22,6 +22,10 @@ export const SideNavLink = ({ icon, text, to }: SideNavLinkProps) => {
 			boxShadow={pathname === to ? 'md' : 'none'}
 			_hover={{
 				bgColor: 'primary-content',
+				boxShadow: 'md',
+				'& > div > div': {
+					color: 'primary',
+				},
 			}}
 			cursor={'pointer'}
 		>

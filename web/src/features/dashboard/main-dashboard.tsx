@@ -1,7 +1,11 @@
+import { Box, Heading } from '@chakra-ui/react';
+
 export default function MainDashboard() {
 	return (
-		<div>
-			<p>Welcome, user</p>
-		</div>
+		<Box>
+			<Heading as={'h2'} fontSize={'2xl'}>
+				Overview
+			</Heading>
+		</Box>
 	);
 }

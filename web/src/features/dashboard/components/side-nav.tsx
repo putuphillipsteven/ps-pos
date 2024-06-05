@@ -1,5 +1,5 @@
-import { Box, Image, VStack } from '@chakra-ui/react';
 import cklogo from '../../../../public/ck-logo.png';
+import { Box, Image, VStack } from '@chakra-ui/react';
 import { BsLaptop } from 'react-icons/bs';
 import { TbBoxSeam, TbCategory2, TbReport } from 'react-icons/tb';
 import { MdOutlineInventory2 } from 'react-icons/md';
@@ -14,7 +14,7 @@ export default function SideNav() {
 			h={'100%'}
 			bgColor={'base-100'}
 			display={'flex'}
-			p={'3em 1em 1em 1em'}
+			p={'1em'}
 			spacing={'3.75em'}
 			alignItems={'center'}
 			justifyContent={'space-between'}
