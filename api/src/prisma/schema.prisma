@@ -14,6 +14,7 @@ model User {
   id          Int           @id @default(autoincrement())
   full_name   String?
   address     String?
+  avatar      String?
   email       String        @unique
   password    String
   role_id     Int
@@ -24,10 +25,15 @@ model User {
   branch_id   Int
 }
 
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
 model Gender {
   id          Int    @id @default(autoincrement())
   gender_name String
-  user        User[]
+  User        User[]
 }
 
 model Transaction {
@@ -124,4 +130,3 @@ model Avatar {
   id    Int    @id @default(autoincrement())
   image String
 }
-  
