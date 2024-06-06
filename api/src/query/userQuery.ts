@@ -1,16 +1,15 @@
 import { PrismaClient } from '@prisma/client';
-
 const prisma = new PrismaClient();
 
 export interface User {
 	full_name: string;
-	address?: string;
+	address?: string | null;
 	email: string;
 	password: string;
 	role_id: 1 | 2 | 3;
 	gender_id: 1 | 2;
-	branch_id?: number;
-	avatar?: string;
+	branch_id?: number | null;
+	avatar?: string | null;
 }
 
 export const createUserQuery = async ({
