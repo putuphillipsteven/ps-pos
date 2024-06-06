@@ -17,13 +17,13 @@ model User {
   avatar      String?
   email       String        @unique
   password    String
-  role        Role          @relation(fields: [role_id], references: [id])
-  role_id     Int
+  role        Role?         @relation(fields: [role_id], references: [id])
+  role_id     Int?
   gender      Gender        @relation(fields: [gender_id], references: [id])
   gender_id   Int
   transaction Transaction[]
-  branch      Branch        @relation(fields: [branch_id], references: [id])
-  branch_id   Int
+  branch      Branch?       @relation(fields: [branch_id], references: [id])
+  branch_id   Int?
 }
 
 model Role {

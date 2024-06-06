@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import bodyParser = require('body-parser');
+import { ErrorHandler } from './middleware/errorHandler';
 const cors = require('cors');
 
 dotenv.config({
@@ -34,6 +35,9 @@ app.use('/category', categoryRoute);
 const transactionRoute = require('./route/transactionRoute');
 app.use('/transaction', transactionRoute);
 
+const userRoute = require('./route/userRoute');
+app.use('/user', userRoute);
+
 const cartRoute = require('./route/cartRoute');
 app.use('/cart', cartRoute);
 
@@ -56,6 +60,8 @@ app.use('/uploads', express.static(path.join(__dirname, './public/images')));
 
 const stockRoute = require('./route/stockRoute');
 app.use('/stock', stockRoute);
+
+app.use(ErrorHandler);
 
 app.listen(port, () => {
 	console.log(`Server started on port : [${port}]`);
