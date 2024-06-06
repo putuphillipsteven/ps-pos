@@ -12,7 +12,7 @@ export const createUserService = async ({
 		const user = await prisma.user.findUnique({
 			where: { email },
 		});
-		if (user) throw new Error('User is exist');
+		if (user) throw new Error('Email has been used');
 		const res = await createUserQuery({
 			full_name,
 			email,
