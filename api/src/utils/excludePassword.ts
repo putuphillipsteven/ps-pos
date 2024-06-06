@@ -9,6 +9,7 @@ type UserWithNullableFields = {
 	gender_id: number;
 	branch_id: number | null;
 };
+
 export const exclude = (user: UserWithNullableFields, keys: string[]) => {
 	return Object.fromEntries(Object.entries(user).filter(([key]) => !keys.includes(key)));
 };

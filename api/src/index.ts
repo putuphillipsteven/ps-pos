@@ -35,6 +35,9 @@ app.use('/category', categoryRoute);
 const transactionRoute = require('./route/transactionRoute');
 app.use('/transaction', transactionRoute);
 
+const authRoute = require('./route/authRoute');
+app.use('/auth', authRoute);
+
 const userRoute = require('./route/userRoute');
 app.use('/user', userRoute);
 

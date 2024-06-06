@@ -15,6 +15,6 @@ const createUserValidations = [
 		),
 	,
 ];
-router.post('/', validator(createUserValidations), createUserController);
+router.post('/create-user', validator(createUserValidations), createUserController);
 
 export = router;
