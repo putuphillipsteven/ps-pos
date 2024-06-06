@@ -14,20 +14,28 @@ model User {
   id          Int           @id @default(autoincrement())
   full_name   String?
   address     String?
+  avatar      String?
   email       String        @unique
   password    String
-  role_id     Int
+  role        Role?         @relation(fields: [role_id], references: [id])
+  role_id     Int?
   gender      Gender        @relation(fields: [gender_id], references: [id])
   gender_id   Int
   transaction Transaction[]
-  branch      Branch        @relation(fields: [branch_id], references: [id])
-  branch_id   Int
+  branch      Branch?       @relation(fields: [branch_id], references: [id])
+  branch_id   Int?
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String
+  User User[]
 }
 
 model Gender {
   id          Int    @id @default(autoincrement())
   gender_name String
-  user        User[]
+  User        User[]
 }
 
 model Transaction {
@@ -124,4 +132,3 @@ model Avatar {
   id    Int    @id @default(autoincrement())
   image String
 }
-  
