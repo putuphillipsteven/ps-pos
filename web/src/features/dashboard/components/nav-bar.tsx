@@ -1,13 +1,25 @@
-import { Box, Flex, HStack, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, Icon, Image, Text } from '@chakra-ui/react';
 import { RiNotification3Fill } from 'react-icons/ri';
-
-export default function NavBar() {
+import { GiHamburgerMenu } from 'react-icons/gi';
+interface NavBarProps {
+	toggleSideNavDisplay: VoidFunction;
+}
+export default function NavBar({ toggleSideNavDisplay }: NavBarProps) {
 	return (
 		<Flex w={'100%'} h={'3em'} alignItems={'center'} justifyContent={'space-between'}>
-			<HStack spacing={'.5em'}>
-				<Text as={'b'}>12:00</Text>
-				<Text fontWeight={'medium'}>Friday, 16 November 2023</Text>
-			</HStack>
+			<Flex alignItems={'center'} justifyContent={'center'} columnGap={4}>
+				<Icon
+					as={GiHamburgerMenu}
+					width={6}
+					height={6}
+					cursor={'pointer'}
+					onClick={toggleSideNavDisplay}
+				/>
+				<HStack spacing={'.5em'}>
+					<Text as={'b'}>12:00</Text>
+					<Text fontWeight={'medium'}>Friday, 16 November 2023</Text>
+				</HStack>
+			</Flex>
 			<HStack spacing={'.5em'}>
 				<Flex
 					justifyContent={'center'}
