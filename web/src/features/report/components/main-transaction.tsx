@@ -6,12 +6,9 @@ import {
 	Icon,
 	Input,
 	Table,
-	TableCaption,
-	TableContainer,
 	Tbody,
 	Td,
 	Text,
-	Tfoot,
 	Th,
 	Thead,
 	Tr,
@@ -19,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { TfiStatsUp } from 'react-icons/tfi';
 import { TfiStatsDown } from 'react-icons/tfi';
+import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 export default function MainTransaction() {
 	const theme = useTheme();
 	return (
@@ -83,11 +81,11 @@ export default function MainTransaction() {
 						type='date'
 						w={'fit'}
 						p={'.5em'}
-						border={`2px solid ${theme.colors.border}`}
+						border={`1px solid ${theme.colors.border}`}
 						focusBorderColor={'transparent'}
-						_focus={{ border: `2px solid ${theme.colors.ring}`, outline: 'none' }}
+						_focus={{ border: `1px solid ${theme.colors.ring}`, outline: 'none' }}
 						outline={'none'}
-						_hover={{ border: `2px solid ${theme.colors.ring}` }}
+						_hover={{ border: `1px solid ${theme.colors.ring}` }}
 						borderRadius={0}
 					/>
 					<Input
@@ -96,15 +94,22 @@ export default function MainTransaction() {
 						type='text'
 						w={'fit'}
 						p={'.5em'}
-						border={`2px solid ${theme.colors.border}`}
+						border={`1px solid ${theme.colors.border}`}
 						focusBorderColor={'transparent'}
-						_focus={{ border: `2px solid ${theme.colors.ring}`, outline: 'none' }}
+						_focus={{ border: `1px solid ${theme.colors.ring}`, outline: 'none' }}
 						outline={'none'}
-						_hover={{ border: `2px solid ${theme.colors.ring}` }}
+						_hover={{ border: `1px solid ${theme.colors.ring}` }}
 						borderRadius={0}
 					/>
 				</Flex>
-				<Box flex={1}>
+				<Box
+					flex={1}
+					display={'flex'}
+					flexDir={'column'}
+					w={'100%'}
+					columnGap={2}
+					justifyContent={'space-between'}
+				>
 					<Table variant={`customStripped`}>
 						<Thead>
 							<Tr>
@@ -183,6 +188,26 @@ export default function MainTransaction() {
 							</Tr>
 						</Tbody>
 					</Table>
+					<Box
+						w={'fit-content'}
+						p={'.5em'}
+						border={`1px solid ${theme.colors.border}`}
+						display={'flex'}
+						columnGap={'1em'}
+						alignItems={'center'}
+					>
+						<Text>Page</Text>
+						<HStack spacing={'2em'} align={'center'}>
+							<Text>1</Text>
+							<Text>2</Text>
+							<Text>3</Text>
+							<Text>4</Text>
+							<Text>5</Text>
+						</HStack>
+						<Icon as={MdOutlineKeyboardArrowRight} fontSize={'xl'} />
+						<Input w={'1em'} h={'2em'} />
+						<Text fontSize={'sm'}>of 30 items</Text>
+					</Box>
 				</Box>
 			</Box>
 		</Box>

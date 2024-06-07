@@ -1,5 +1,3 @@
-import { background } from '@chakra-ui/react';
-
 export const table = {
 	variants: {
 		customStripped: {
