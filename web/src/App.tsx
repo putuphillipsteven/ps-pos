@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import { Box } from '@chakra-ui/react';
+import { Box, Flex, useTheme } from '@chakra-ui/react';
 import SideNav from './features/dashboard/components/side-nav';
 import NavBar from './features/dashboard/components/nav-bar';
 import { useState } from 'react';
@@ -11,29 +11,46 @@ export default function App() {
 		setSideNavDisplay(!sideNavDisplay);
 	};
 
+	const theme = useTheme();
 	return (
-		<Box maxW={'100vw'} minH={'100vh'} display={'flex'} alignItems={'stretch'}>
+		<Box
+			maxW={'100vw'}
+			overflow={'hidden'}
+			minH={'100vh'}
+			display={'flex'}
+			columnGap={1}
+			alignItems={'stretch'}
+		>
 			<Box
 				w={sideNavDisplay ? '13.75em' : '3em'}
 				minH={'100%'}
-				backgroundColor={'base-100'}
-				overflow={'hidden'}
-				boxShadow={'md'}
+				backgroundColor={'background'}
+				// boxShadow={'md'}
 			>
 				<SideNav sideNavDisplay={sideNavDisplay} />
 			</Box>
 			<Box
-				w={'100%'}
-				minH={'100%'}
 				p={'1em'}
-				display={'flex'}
+				overflow={'hidden'}
+				w={'100%'}
 				flex={1}
-				flexDir={'column'}
-				rowGap={'3.25em'}
-				backgroundColor={'base-content'}
+				display={'flex'}
+				backgroundColor={'background'}
 			>
-				<NavBar toggleSideNavDisplay={toggleSideNav} />
-				<Outlet />
+				<Flex w={'100%'} h={'100%'} flexDir={'column'} rowGap={'1.5em'}>
+					<NavBar toggleSideNavDisplay={toggleSideNav} />
+					<Box
+						w={'100%'}
+						h={'100%'}
+						overflow={'hidden'}
+						py={'.3em'}
+						px={'1em'}
+						bgColor={'background'}
+						border={`2px solid ${theme.colors.border}`}
+					>
+						<Outlet />
+					</Box>
+				</Flex>
 			</Box>
 		</Box>
 	);

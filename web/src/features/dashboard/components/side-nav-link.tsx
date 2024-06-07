@@ -1,6 +1,7 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, useTheme } from '@chakra-ui/react';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { checkLink, checkLocation, getMain } from '../../../utils/routing';
 
 interface SideNavLinkProps {
 	sideNavDisplay: boolean;
@@ -11,6 +12,7 @@ interface SideNavLinkProps {
 
 export const SideNavLink = ({ icon, text, to, sideNavDisplay }: SideNavLinkProps) => {
 	const pathname = useLocation().pathname;
+	const theme = useTheme();
 	return (
 		<Link to={to} style={{ width: '100%' }}>
 			<Flex
@@ -19,11 +21,12 @@ export const SideNavLink = ({ icon, text, to, sideNavDisplay }: SideNavLinkProps
 				borderRadius={'0em'}
 				columnGap={'1em'}
 				alignItems={'center'}
-				border={pathname === to ? '1px solid #E5E5E5' : 'transparent'}
-				boxShadow={pathname === to ? 'xs' : 'none'}
+				border={checkLink(to, pathname) ? `1px solid ${theme.colors.border}` : 'transparent'}
+				background={checkLink(to, pathname) ? `secondary` : 'transparent'}
+				// boxShadow={checkLink(to, pathname) ? 'xs' : 'none'}
 				_hover={{
-					border: '1px solid #E5E5E5',
-					boxShadow: 'xs',
+					border: `1px solid ${theme.colors.border}`,
+					background: 'secondary',
 					'& > div > div': {
 						color: 'base-content',
 					},
@@ -33,9 +36,12 @@ export const SideNavLink = ({ icon, text, to, sideNavDisplay }: SideNavLinkProps
 				cursor={'pointer'}
 				overflow={'hidden'}
 			>
-				<Box color={'primary'}>{icon}</Box>
+				<Box color={checkLink(to, pathname) ? `primary` : `muted-foreground`}>{icon}</Box>
 				<Box display={sideNavDisplay ? 'flex' : 'none'}>
-					<Text color={'primary'} as={'b'}>
+					<Text
+						color={checkLink(to, pathname) ? `primary` : `muted-foreground`}
+						fontWeight={checkLink(to, pathname) ? `medium` : `normal`}
+					>
 						{text}
 					</Text>
 				</Box>

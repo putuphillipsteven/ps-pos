@@ -1,12 +1,20 @@
-import { Box, Flex, HStack, Icon, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, HStack, Icon, Image, Text, useTheme } from '@chakra-ui/react';
 import { RiNotification3Fill } from 'react-icons/ri';
 import { GiHamburgerMenu } from 'react-icons/gi';
 interface NavBarProps {
 	toggleSideNavDisplay: VoidFunction;
 }
 export default function NavBar({ toggleSideNavDisplay }: NavBarProps) {
+	const theme = useTheme();
 	return (
-		<Flex w={'100%'} h={'3em'} alignItems={'center'} justifyContent={'space-between'}>
+		<Flex
+			w={'100%'}
+			h={'3em'}
+			p={'1em'}
+			alignItems={'center'}
+			justifyContent={'space-between'}
+			border={`2px solid ${theme.colors.border}`}
+		>
 			<Flex alignItems={'center'} justifyContent={'center'} columnGap={4}>
 				<Icon
 					as={GiHamburgerMenu}

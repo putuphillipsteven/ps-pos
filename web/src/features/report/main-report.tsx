@@ -1,33 +1,43 @@
-import { Box, Button, Flex, HStack, Heading, Text, useTheme } from '@chakra-ui/react';
+import { Box, Flex, HStack, Text, useTheme } from '@chakra-ui/react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { checkLocation } from '../../utils/routing';
 
 export default function MainReport() {
 	const theme = useTheme();
 	const location = useLocation().pathname;
-	console.log(location);
 	return (
-		<Box p={'.5em'} w={'100%'} h={'100%'}>
+		<Box w={'100%'} h={'100%'}>
 			<Flex w={'100%'} h={'100%'} flexDir={'column'}>
 				<HStack spacing={'2em'}>
 					<Link to={'transaction'} style={{ height: '100%' }}>
 						<Box
-							p={'.25em'}
+							pb={'.3em'}
 							borderBottom={
-								location === '/dashboard/report/transaction'
-									? `2px solid ${theme.colors.primary}`
+								checkLocation(location, '/dashboard/report/transaction')
+									? `2px solid ${theme.colors.border}`
 									: 'none'
 							}
 						>
-							<Text fontWeight={location === '/dashboard/report/transaction' ? 'bold' : 'normal'}>
+							<Text
+								fontWeight={location === '/dashboard/report/transaction' ? 'medium' : 'normal'}
+								color={
+									location === '/dashboard/report/transaction' ? 'primary' : 'muted-foreground'
+								}
+							>
 								Transaction
 							</Text>
 						</Box>
 					</Link>
-					<Link to={'#'}>
-						<Text>Sales</Text>
+					<Link to={'#'} style={{ height: '100%' }}>
+						<Text
+							fontWeight={location === '/dashboard/report/sales' ? 'medium' : 'normal'}
+							color={location === '/dashboard/report/sales' ? 'primary' : 'muted-foreground'}
+						>
+							Sales
+						</Text>
 					</Link>
 				</HStack>
-				<Box p={'.25em'}>
+				<Box pb={'.3em'}>
 					<Outlet />
 				</Box>
 			</Flex>
