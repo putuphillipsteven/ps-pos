@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Heading } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 
 export default function MainDashboard() {
 	return (

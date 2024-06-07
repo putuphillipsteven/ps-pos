@@ -1,4 +1,4 @@
-import { Flex, Heading, Text, VStack, useTheme } from '@chakra-ui/react';
+import { Flex, Heading, VStack, useTheme } from '@chakra-ui/react';
 import { BsLaptop } from 'react-icons/bs';
 import { TbBoxSeam, TbCategory2, TbReport } from 'react-icons/tb';
 import { MdOutlineInventory2 } from 'react-icons/md';
@@ -20,10 +20,11 @@ export default function SideNav({ sideNavDisplay }: SideNavProps) {
 			borderRight={`2px solid ${theme.colors.border}`}
 			overflow={'hidden'}
 			display={'flex'}
-			p={'1em'}
+			px={sideNavDisplay ? '1em' : '.5em'}
+			py={'1em'}
 			flexDir={'column'}
 			rowGap={'1.5em'}
-			alignItems={'stretch'}
+			alignItems={'center'}
 			justifyContent={'flex-start'}
 		>
 			<Flex
@@ -34,9 +35,8 @@ export default function SideNav({ sideNavDisplay }: SideNavProps) {
 				h={'3em'}
 				p={'1em'}
 			>
-				{/* <Image src={cklogo} w={'9.75em'} h={'auto'} /> */}
-				<Heading as={'h1'} fontSize={'2xl'} display={sideNavDisplay ? 'flex' : 'none'}>
-					Point of Sales
+				<Heading as={'h1'} fontSize={'lg'}>
+					POS
 				</Heading>
 			</Flex>
 			<VStack w={'100%'} spacing={'1em'} align={'center'}>
@@ -48,7 +48,7 @@ export default function SideNav({ sideNavDisplay }: SideNavProps) {
 				/>
 				<SideNavLink
 					sideNavDisplay={sideNavDisplay}
-					to={'/dashboard/report'}
+					to={'/dashboard/report/transaction'}
 					text={'Report'}
 					icon={<TbReport />}
 				/>

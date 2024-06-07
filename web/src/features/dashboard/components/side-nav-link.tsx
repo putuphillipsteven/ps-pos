@@ -1,7 +1,7 @@
 import { Box, Flex, Text, useTheme } from '@chakra-ui/react';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { checkLink, checkLocation, getMain } from '../../../utils/routing';
+import { checkLink } from '../../../utils/routing';
 
 interface SideNavLinkProps {
 	sideNavDisplay: boolean;

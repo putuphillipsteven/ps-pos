@@ -37,7 +37,7 @@ export default function MainReport() {
 						</Text>
 					</Link>
 				</HStack>
-				<Box pb={'.3em'}>
+				<Box py={'.3em'} h={'100%'}>
 					<Outlet />
 				</Box>
 			</Flex>

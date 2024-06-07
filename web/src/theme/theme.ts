@@ -1,6 +1,6 @@
 import { extendTheme } from '@chakra-ui/react';
 import { colors } from './color';
-import { Box } from './box';
+import { table } from './table';
 const theme = extendTheme({
 	components: {
 		Box: {
@@ -20,6 +20,7 @@ const theme = extendTheme({
 				},
 			},
 		},
+		Table: table,
 	},
 	colors,
 	border: {},
