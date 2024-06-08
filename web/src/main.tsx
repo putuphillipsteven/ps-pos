@@ -10,13 +10,14 @@ import {
 import theme from './theme/theme.ts';
 import MainDashboard from './features/dashboard/main-dashboard.tsx';
 import MainReport from './features/report/main-report.tsx';
+import MainTransaction from './features/report/components/main-transaction.tsx';
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path='/' element={<App />}>
 			<Route path='dashboard' element={<MainDashboard />} />
 			<Route path='dashboard/report' element={<MainReport />}>
-				<Route path='transaction' element={<Text>Transaction</Text>} />
+				<Route path='transaction' element={<MainTransaction />} />
 			</Route>
 		</Route>,
 	),

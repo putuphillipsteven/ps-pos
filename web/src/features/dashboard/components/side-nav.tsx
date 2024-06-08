@@ -1,40 +1,82 @@
-import cklogo from '../../../../public/ck-logo.png';
-import { Box, Image, VStack } from '@chakra-ui/react';
+import { Flex, Heading, VStack, useTheme } from '@chakra-ui/react';
 import { BsLaptop } from 'react-icons/bs';
 import { TbBoxSeam, TbCategory2, TbReport } from 'react-icons/tb';
 import { MdOutlineInventory2 } from 'react-icons/md';
 import { IoIosPeople } from 'react-icons/io';
 import { SideNavLink } from './side-nav-link';
-import { BiLogOut } from 'react-icons/bi';
-export default function SideNav() {
+
+interface SideNavProps {
+	sideNavDisplay: boolean;
+}
+
+export default function SideNav({ sideNavDisplay }: SideNavProps) {
+	const theme = useTheme();
 	return (
-		<VStack
+		<Flex
 			top={'0'}
-			w={'100%'}
+			w={sideNavDisplay ? '13.75em' : '3em'}
 			h={'100%'}
-			bgColor={'base-100'}
+			bgColor={'background'}
+			borderRight={`2px solid ${theme.colors.border}`}
+			overflow={'hidden'}
 			display={'flex'}
-			p={'1em'}
-			spacing={'3.75em'}
+			px={sideNavDisplay ? '1em' : '.5em'}
+			py={'1em'}
+			flexDir={'column'}
+			rowGap={'1.5em'}
 			alignItems={'center'}
-			justifyContent={'space-between'}
+			justifyContent={'flex-start'}
 		>
-			<VStack spacing={'3.75em'}>
-				<Box>
-					<Image src={cklogo} w={'9.75em'} h={'3em'} />
-				</Box>
-				<VStack w={'100%'} spacing={'1em'} align={'center'}>
-					<SideNavLink text={'Dashboard'} icon={<BsLaptop />} to={'/dashboard'} />
-					<SideNavLink to={'/dashboard/report'} text={'Report'} icon={<TbReport />} />
-					<SideNavLink text={'Inventory'} to={'#'} icon={<MdOutlineInventory2 />} />
-					<SideNavLink text={'Product'} to={'#'} icon={<TbBoxSeam />} />
-					<SideNavLink text={'Category'} to={'#'} icon={<TbCategory2 />} />
-					<SideNavLink text={'Employee'} to={'#'} icon={<IoIosPeople />} />
-				</VStack>
+			<Flex
+				alignItems={'center'}
+				flexDir={'column'}
+				justifyContent={'center'}
+				w={'100%'}
+				h={'3em'}
+				p={'1em'}
+			>
+				<Heading as={'h1'} fontSize={'lg'}>
+					POS
+				</Heading>
+			</Flex>
+			<VStack w={'100%'} spacing={'1em'} align={'center'}>
+				<SideNavLink
+					sideNavDisplay={sideNavDisplay}
+					text={'Dashboard'}
+					icon={<BsLaptop />}
+					to={'/dashboard'}
+				/>
+				<SideNavLink
+					sideNavDisplay={sideNavDisplay}
+					to={'/dashboard/report/transaction'}
+					text={'Report'}
+					icon={<TbReport />}
+				/>
+				<SideNavLink
+					sideNavDisplay={sideNavDisplay}
+					text={'Inventory'}
+					to={'#'}
+					icon={<MdOutlineInventory2 />}
+				/>
+				<SideNavLink
+					sideNavDisplay={sideNavDisplay}
+					text={'Product'}
+					to={'#'}
+					icon={<TbBoxSeam />}
+				/>
+				<SideNavLink
+					sideNavDisplay={sideNavDisplay}
+					text={'Category'}
+					to={'#'}
+					icon={<TbCategory2 />}
+				/>
+				<SideNavLink
+					sideNavDisplay={sideNavDisplay}
+					text={'Employee'}
+					to={'#'}
+					icon={<IoIosPeople />}
+				/>
 			</VStack>
-			<Box mt={'auto'}>
-				<SideNavLink text={'Log Out'} icon={<BiLogOut />} to='#' />
-			</Box>
-		</VStack>
+		</Flex>
 	);
 }
