@@ -8,6 +8,9 @@ export const errorHandler: ErrorRequestHandler = (
 ) => {
 	const errStatus = (err.status as number) || 500;
 	res.status(errStatus).json({
-		errors: { message: err.message || 'Something went wrong' },
+		errors: {
+			message: err.message || 'Something went wrong',
+			stack: process.env.NODE_ENV === 'production' ? '[]' : err.stack,
+		},
 	});
 };

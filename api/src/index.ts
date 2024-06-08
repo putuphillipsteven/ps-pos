@@ -3,6 +3,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import bodyParser = require('body-parser');
 import { errorHandler } from './middleware/errorHandler';
+import router from './router';
 const cors = require('cors');
 
 dotenv.config({
@@ -29,40 +30,9 @@ app.use((req, res, next) => {
 	next();
 });
 
-const categoryRoute = require('./route/productCategoryRoute');
-app.use('/category', categoryRoute);
+app.use('/api', router);
 
-const transactionRoute = require('./route/transactionRoute');
-app.use('/transaction', transactionRoute);
-
-const authRoute = require('./route/authRoute');
-app.use('/auth', authRoute);
-
-const userRoute = require('./route/userRoute');
-app.use('/user', userRoute);
-
-const cartRoute = require('./route/cartRoute');
-app.use('/cart', cartRoute);
-
-const transactionDetailRoute = require('./route/transactionDetailRoutes');
-app.use('/transaction-detail', transactionDetailRoute);
-
-const productRoute = require('./route/productRoute');
-app.use('/product', productRoute);
-
-const branchRoute = require('./route/branchRoute');
-app.use('/branch', branchRoute);
-
-const statusRoute = require('./route/statusRoute');
-app.use('/status', statusRoute);
-
-const profileRoute = require('./route/profileImageRoute');
-app.use('/profile', profileRoute);
-
-app.use('/uploads', express.static(path.join(__dirname, './public/images')));
-
-const stockRoute = require('./route/stockRoute');
-app.use('/stock', stockRoute);
+app.use('/api/uploads', express.static(path.join(__dirname, './public/images')));
 
 app.use(errorHandler);
 
