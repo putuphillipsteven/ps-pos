@@ -1,10 +1,14 @@
+import { PrismaClient } from '@prisma/client';
 import {
 	createTransactionQuery,
 	findTransactionQuery,
 	getAllTransactionQuery,
 	updateTransactionQuery,
 	groupTransactionByDateQuery,
+	TransactionDetail,
 } from '../query/transactionQuery';
+
+const prisma = new PrismaClient();
 
 export const createTransactionService = async (
 	user_id: number,
@@ -15,6 +19,7 @@ export const createTransactionService = async (
 	customer_name: string,
 	payment_change: number,
 	total_price_ppn: number,
+	transaction_details: TransactionDetail[],
 ) => {
 	try {
 		const res = await createTransactionQuery(
@@ -27,6 +32,15 @@ export const createTransactionService = async (
 			(payment_change = payment_amount - total_price),
 			total_price_ppn,
 		);
+		const transaction_id = res?.id;
+		const dataWithTransactionId = transaction_details.map((item) => ({
+			...item,
+			transaction_id: transaction_id,
+		}));
+		const transactionDetails = await prisma.transaction_Detail.createMany({
+			data: dataWithTransactionId,
+		});
+		console.log(['Transaction Details'], transactionDetails);
 		return res;
 	} catch (err) {
 		throw err;

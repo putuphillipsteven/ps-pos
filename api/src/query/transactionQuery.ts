@@ -2,6 +2,13 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+export interface TransactionDetail {
+	product_id: number;
+	qty: number;
+	transaction_id: number;
+	total_price: number;
+}
+
 export const createTransactionQuery = async (
 	user_id: number,
 	total_price: number,
@@ -13,7 +20,7 @@ export const createTransactionQuery = async (
 	total_price_ppn: number,
 ): Promise<any> => {
 	try {
-		const transaction = await prisma.transaction.create({
+		const res = await prisma.transaction.create({
 			data: {
 				user_id: user_id,
 				total_price: total_price,
@@ -25,18 +32,8 @@ export const createTransactionQuery = async (
 				total_price_ppn: total_price_ppn,
 			},
 		});
-		const transactionDetail = await prisma.transaction_Detail.createMany({
-			data: [
-				{
-					cart_id: 1,
-					product_id: 10,
-					qty: 10,
-					transaction_id: 1,
-					total_price: 10000,
-				},
-			],
-		});
-		return transaction;
+
+		return res;
 	} catch (err) {
 		throw err;
 	}

@@ -9,8 +9,15 @@ import {
 
 export const createTransactionController = async (req: Request, res: Response) => {
 	try {
-		const { user_id, total_price, total_qty, payment_method_id, payment_amount, customer_name } =
-			req.body;
+		const {
+			user_id,
+			total_price,
+			total_qty,
+			payment_method_id,
+			payment_amount,
+			customer_name,
+			transaction_details,
+		} = req.body;
 
 		const result = await createTransactionService(
 			user_id,
@@ -21,6 +28,7 @@ export const createTransactionController = async (req: Request, res: Response) =
 			customer_name,
 			payment_amount - (total_price + total_price * 0.1),
 			total_price + total_price * 0.1,
+			transaction_details,
 		);
 		return res.status(200).json({
 			message: 'Create Transaction Success',
