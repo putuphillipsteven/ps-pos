@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-// import { date } from "yup";
 
 const prisma = new PrismaClient();
 
@@ -14,7 +13,7 @@ export const createTransactionQuery = async (
 	total_price_ppn: number,
 ): Promise<any> => {
 	try {
-		const res = await prisma.transaction.create({
+		const transaction = await prisma.transaction.create({
 			data: {
 				user_id: user_id,
 				total_price: total_price,
@@ -26,7 +25,18 @@ export const createTransactionQuery = async (
 				total_price_ppn: total_price_ppn,
 			},
 		});
-		return res;
+		const transactionDetail = await prisma.transaction_Detail.createMany({
+			data: [
+				{
+					cart_id: 1,
+					product_id: 10,
+					qty: 10,
+					transaction_id: 1,
+					total_price: 10000,
+				},
+			],
+		});
+		return transaction;
 	} catch (err) {
 		throw err;
 	}
@@ -85,6 +95,7 @@ export const getAllTransactionQuery = async (
 				},
 			},
 		};
+
 		// Use the filter object in both findMany and count
 		const [transaction, count] = await prisma.$transaction([
 			prisma.transaction.findMany(filter),

@@ -68,8 +68,8 @@ model Transaction_Detail {
   product_id     Int
   qty            Int
   total_price    Int?
-  cart           Cart        @relation(fields: [cart_id], references: [id])
-  cart_id        Int
+  cart           Cart?       @relation(fields: [cart_id], references: [id])
+  cart_id        Int?
 }
 
 model Cart {
