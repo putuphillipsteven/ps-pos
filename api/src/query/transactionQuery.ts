@@ -19,6 +19,13 @@ export interface TransactionProps {
 	total_price_ppn: number;
 }
 
+export interface GetTransactionFilters {
+	startDate?: string;
+	endDate?: string;
+	page?: number;
+	pageSize?: number;
+}
+
 export class TransactionQuery {
 	prisma: PrismaClient;
 
@@ -54,5 +61,25 @@ export class TransactionQuery {
 		} catch (err) {
 			throw err;
 		}
+	}
+
+	public async getTransactions(filters: GetTransactionFilters) {
+		const today = new Date();
+
+		const defaultStartDate = new Date(today);
+		const defaultEndDate = new Date(today);
+		defaultStartDate.setDate(today.getDate() - 1);
+		defaultEndDate.setDate(today.getDate() + 1);
+		const { startDate, endDate, page = 1, pageSize = 10 } = filters;
+		const total = await this.prisma.transaction.count();
+		const data = await this.prisma.transaction.findMany({
+			include: {
+				transaction_detail: true,
+			},
+		});
+		return {
+			total,
+			data,
+		};
 	}
 }

@@ -12,6 +12,7 @@ export class TransactionController {
 	constructor() {
 		this.transactionService = new TransactionService();
 		this.createTransaction = this.createTransaction.bind(this);
+		this.getTransaction = this.getTransaction.bind(this);
 	}
 
 	public async createTransaction(req: Request, res: Response, next: NextFunction) {
@@ -37,6 +38,15 @@ export class TransactionController {
 			sendResponse(res, 200, 'Create Transaction Success', result);
 		} catch (err) {
 			console.error(err);
+			next(err);
+		}
+	}
+
+	public async getTransaction(req: Request, res: Response, next: NextFunction) {
+		try {
+			const result = await this.transactionService.getTransaction({});
+			sendResponse(res, 200, 'Get Transaction Success', result);
+		} catch (err) {
 			next(err);
 		}
 	}

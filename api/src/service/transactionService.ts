@@ -1,4 +1,5 @@
 import {
+	GetTransactionFilters,
 	TransactionDetailsProps,
 	TransactionProps,
 	TransactionQuery,
@@ -43,6 +44,15 @@ export class TransactionService {
 			await this.transactionQuery.prisma.transaction_Detail.createMany({
 				data: detailsData,
 			});
+			return res;
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	public async getTransaction(filters: GetTransactionFilters) {
+		try {
+			const res = await this.transactionQuery.getTransactions({});
 			return res;
 		} catch (err) {
 			throw err;
