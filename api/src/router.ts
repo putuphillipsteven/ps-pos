@@ -17,9 +17,6 @@ router.use('/user', userRoute);
 const cartRoute = require('./route/cartRoute');
 router.use('/cart', cartRoute);
 
-const transactionDetailRoute = require('./route/transactionDetailRoutes');
-router.use('/transaction-detail', transactionDetailRoute);
-
 const productRoute = require('./route/productRoute');
 router.use('/product', productRoute);
 
