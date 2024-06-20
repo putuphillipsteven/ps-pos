@@ -19,7 +19,6 @@ export class UserQuery {
 
 	public async createUser(user: User) {
 		try {
-			const { email, full_name, gender_id, password, role_id, address, avatar, branch_id } = user;
 			const res = await this.prisma.user.create({ data: { ...user } });
 			return res;
 		} catch (err) {
