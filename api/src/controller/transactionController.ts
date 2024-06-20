@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import {
-	CreateTransactionService,
 	CreateTransactionServiceWithDetails,
 	TransactionService,
 } from '../service/transactionService';

@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
 
 export interface User {
 	full_name: string;
@@ -12,25 +11,19 @@ export interface User {
 	avatar?: string | null;
 }
 
-export const createUserQuery = async ({
-	full_name,
-	email,
-	password,
-	role_id = 3,
-	gender_id,
-}: User) => {
-	try {
-		const res = await prisma.user.create({
-			data: {
-				full_name,
-				email,
-				password,
-				role_id,
-				gender_id,
-			},
-		});
-		return res;
-	} catch (err) {
-		throw err;
+export class UserQuery {
+	prisma: PrismaClient;
+	constructor() {
+		this.prisma = new PrismaClient();
 	}
-};
+
+	public async createUser(user: User) {
+		try {
+			const { email, full_name, gender_id, password, role_id, address, avatar, branch_id } = user;
+			const res = await this.prisma.user.create({ data: { ...user } });
+			return res;
+		} catch (err) {
+			throw err;
+		}
+	}
+}
