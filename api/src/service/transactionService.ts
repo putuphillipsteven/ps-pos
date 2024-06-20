@@ -12,7 +12,6 @@ export type CreateTransactionService = Omit<
 
 export type CreateTransactionServiceWithDetails = CreateTransactionService & {
 	details: TransactionDetailsProps[];
-	// Add additional properties as needed
 };
 
 export class TransactionService {
@@ -27,7 +26,7 @@ export class TransactionService {
 			const res = await this.transactionQuery.createTransaction({
 				customer_name: transaction.customer_name,
 				payment_amount: transaction.payment_amount,
-				payment_change: transaction.total_price - transaction.payment_amount,
+				payment_change: transaction.payment_amount - transaction.total_price,
 				payment_method_id: transaction.payment_method_id,
 				total_price: transaction.total_price,
 				total_price_ppn: transaction.total_price + transaction.total_price * 0.1,
@@ -52,7 +51,7 @@ export class TransactionService {
 
 	public async getTransaction(filters: GetTransactionFilters) {
 		try {
-			const res = await this.transactionQuery.getTransactions({});
+			const res = await this.transactionQuery.getTransactions(filters);
 			return res;
 		} catch (err) {
 			throw err;

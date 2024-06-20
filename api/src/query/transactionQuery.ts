@@ -20,10 +20,10 @@ export interface TransactionProps {
 }
 
 export interface GetTransactionFilters {
-	startDate?: string;
-	endDate?: string;
-	page?: number;
-	pageSize?: number;
+	startDate: string;
+	endDate: string;
+	page: string;
+	pageSize: string;
 }
 
 export class TransactionQuery {
@@ -64,15 +64,44 @@ export class TransactionQuery {
 	}
 
 	public async getTransactions(filters: GetTransactionFilters) {
-		const today = new Date();
+		const skip = (+filters.page - 1) * +filters.pageSize;
+		const take = +filters.pageSize;
 
+		const today = new Date();
 		const defaultStartDate = new Date(today);
 		const defaultEndDate = new Date(today);
-		defaultStartDate.setDate(today.getDate() - 1);
 		defaultEndDate.setDate(today.getDate() + 1);
-		const { startDate, endDate, page = 1, pageSize = 10 } = filters;
-		const total = await this.prisma.transaction.count();
+
+		const newFilter = {
+			skip,
+			take,
+			where: {
+				date: {
+					gt: defaultStartDate,
+					lt: defaultEndDate,
+				},
+			},
+		};
+		const totalFilter = {
+			where: {
+				date: {
+					gt: new Date(0),
+					lt: defaultEndDate,
+				},
+			},
+		};
+		if (filters.startDate) {
+			newFilter.where.date.gt = new Date(filters.startDate);
+			totalFilter.where.date.gt = new Date(filters.startDate);
+		}
+		if (filters.endDate) {
+			newFilter.where.date.lt = new Date(filters.endDate);
+			totalFilter.where.date.lt = new Date(filters.endDate);
+		}
+
+		const total = await this.prisma.transaction.count({ ...totalFilter });
 		const data = await this.prisma.transaction.findMany({
+			...newFilter,
 			include: {
 				transaction_detail: true,
 			},

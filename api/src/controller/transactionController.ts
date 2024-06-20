@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-	CreateTransactionServiceWithDetails,
-	TransactionService,
-} from '../service/transactionService';
+import { ParsedQs } from 'qs';
+import { TransactionService } from '../service/transactionService';
 import { sendResponse } from '../utils/utilts';
+import { GetTransactionFilters } from '../query/transactionQuery';
 
 export class TransactionController {
 	private transactionService: TransactionService;
@@ -15,25 +14,8 @@ export class TransactionController {
 	}
 
 	public async createTransaction(req: Request, res: Response, next: NextFunction) {
-		const {
-			user_id,
-			total_price,
-			total_qty,
-			payment_method_id,
-			payment_amount,
-			customer_name,
-			details,
-		}: CreateTransactionServiceWithDetails = req.body;
 		try {
-			const result = await this.transactionService.createTransaction({
-				customer_name,
-				payment_amount,
-				payment_method_id,
-				total_price,
-				total_qty,
-				user_id,
-				details,
-			});
+			const result = await this.transactionService.createTransaction(req.body);
 			sendResponse(res, 200, 'Create Transaction Success', result);
 		} catch (err) {
 			console.error(err);
@@ -43,7 +25,14 @@ export class TransactionController {
 
 	public async getTransaction(req: Request, res: Response, next: NextFunction) {
 		try {
-			const result = await this.transactionService.getTransaction({});
+			const { endDate, page, pageSize, startDate } = req.query as ParsedQs & GetTransactionFilters;
+			const filters: GetTransactionFilters = {
+				startDate,
+				endDate,
+				page,
+				pageSize,
+			};
+			const result = await this.transactionService.getTransaction(filters);
 			sendResponse(res, 200, 'Get Transaction Success', result);
 		} catch (err) {
 			next(err);
