@@ -17,6 +17,7 @@ import {
 import { TfiStatsUp } from 'react-icons/tfi';
 import { TfiStatsDown } from 'react-icons/tfi';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
+import Pagination from './pagination';
 export default function MainTransaction() {
 	const theme = useTheme();
 	return (
@@ -36,7 +37,7 @@ export default function MainTransaction() {
 					</HStack>
 				</Box>
 				<Box border={`2px solid ${theme.colors.border}`} p={'.5em'}>
-					<Text fontWeight={'bold'}>Total Transaction Today</Text>
+					<Text fontWeight={'bold'}>Cash transaction</Text>
 					<Text fontWeight={'medium'}>10</Text>
 					<HStack>
 						<Icon as={TfiStatsDown} color={'destructive'} />
@@ -46,11 +47,11 @@ export default function MainTransaction() {
 					</HStack>
 				</Box>
 				<Box border={`2px solid ${theme.colors.border}`} p={'.5em'}>
-					<Text fontWeight={'bold'}>Total Transaction Today</Text>
+					<Text fontWeight={'bold'}>Debit Transaction</Text>
 					<Text fontWeight={'medium'}>10</Text>
 					<HStack>
 						<Icon as={TfiStatsUp} color={'primary'} />
-						<Text fontSize={'xs'}>+10 from yesterday</Text>
+						<Text fontSize={'xs'}>QRIS Transaction</Text>
 					</HStack>
 				</Box>
 				<Box border={`2px solid ${theme.colors.border}`} p={'.5em'}>
@@ -188,26 +189,7 @@ export default function MainTransaction() {
 							</Tr>
 						</Tbody>
 					</Table>
-					<Box
-						w={'fit-content'}
-						p={'.5em'}
-						border={`1px solid ${theme.colors.border}`}
-						display={'flex'}
-						columnGap={'1em'}
-						alignItems={'center'}
-					>
-						<Text>Page</Text>
-						<HStack spacing={'2em'} align={'center'}>
-							<Text>1</Text>
-							<Text>2</Text>
-							<Text>3</Text>
-							<Text>4</Text>
-							<Text>5</Text>
-						</HStack>
-						<Icon as={MdOutlineKeyboardArrowRight} fontSize={'xl'} />
-						<Input w={'1em'} h={'2em'} />
-						<Text fontSize={'sm'}>of 30 items</Text>
-					</Box>
+					<Pagination />
 				</Box>
 			</Box>
 		</Box>
