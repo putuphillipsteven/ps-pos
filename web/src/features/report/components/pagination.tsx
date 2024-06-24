@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, HStack, Icon, Input, Text, useTheme } from '@chakra-ui/react';
+import { Box, Flex, HStack, Icon, Input, Text, useTheme } from '@chakra-ui/react';
 import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
 
@@ -8,13 +8,9 @@ export default function Pagination() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [page, setPage] = useState<number>(parseInt(searchParams.get('page') || '1'));
 	const totalPages = 30;
-	const visiblePagesCount = 5; // Number of visible pages in the pagination
-	const [startPage, setStartPage] = useState<number>(1);
-
-	useEffect(() => {
-		setPage(parseInt(searchParams.get('page') || '1'));
-	}, [searchParams]);
-
+	const buttonsToShow = 5;
+	const defaultStartPage = 1;
+	const defaultEndPage = 5;
 	const handleNext = () => {
 		if (page < totalPages) {
 			setSearchParams({ page: (page + 1).toString() });
@@ -34,7 +30,20 @@ export default function Pagination() {
 		}
 	};
 
+	const pagination: number[] = [];
+
+	const counter = defaultEndPage - 5;
+	for (let i = defaultEndPage; i > counter; i--) {
+		pagination.unshift(i);
+	}
+
 	const visiblePages = [1, 2, 3, 4, 5];
+
+	useEffect(() => {
+		setPage(parseInt(searchParams.get('page') || '1'));
+	}, [searchParams]);
+
+	console.log('[pagination]', pagination);
 	return (
 		<Box
 			w={'fit-content'}
@@ -53,16 +62,22 @@ export default function Pagination() {
 				visibility={page > 1 ? 'visible' : 'hidden'}
 			/>
 			<HStack spacing={'2em'} align={'center'}>
-				{visiblePages.map((pageNumber) => (
-					<Box
+				{pagination.map((pageNumber) => (
+					<Flex
+						alignItems={'center'}
+						justifyContent={'center'}
 						key={pageNumber}
-						w={2}
-						h={'full'}
-						_hover={{ cursor: 'pointer', fontWeight: pageNumber === page ? 'medium' : 'normal' }}
+						w={'2em'}
+						borderRadius={'.25em'}
+						h={'2em'}
+						border={`1px solid ${theme.colors.border}`}
+						bgColor={pageNumber === page ? 'secondary' : 'transparent'}
+						_hover={{ cursor: 'pointer', fontWeight: 'medium' }}
 						onClick={() => handlePageClick(pageNumber)}
+						fontWeight={pageNumber === page ? 'medium' : 'normal'}
 					>
 						<Text>{pageNumber}</Text>
-					</Box>
+					</Flex>
 				))}
 			</HStack>
 			<Icon
