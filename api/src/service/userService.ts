@@ -1,3 +1,4 @@
+import { AuthQuery } from '../query/authQuery';
 import { User, UserQuery } from '../query/userQuery';
 import { exclude } from '../utils/excludePassword';
 
@@ -9,11 +10,9 @@ export class UserService {
 
 	public async createUser(user: User) {
 		try {
-			const check = await this.userQuery.prisma.user.findUnique({
-				where: {
-					email: user.email,
-				},
-			});
+			const auth = new AuthQuery();
+			const check = await auth.findUserEmail(user.email);
+
 			if (check) throw new Error('Email is already registered');
 			const res = await this.userQuery.createUser(user);
 			return exclude(res, ['password']);
