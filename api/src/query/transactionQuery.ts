@@ -1,147 +1,97 @@
 import { PrismaClient } from '@prisma/client';
-// import { date } from "yup";
 
-const prisma = new PrismaClient();
+export interface TransactionDetailsProps {
+	transaction_id: number;
+	product_id: number;
+	qty: number;
+	total_price: number;
+	cart_id?: number;
+}
 
-export const createTransactionQuery = async (
-	user_id: number,
-	total_price: number,
-	total_qty: number,
-	payment_method_id: number,
-	payment_amount: number,
-	customer_name: string,
-	payment_change: number,
-	total_price_ppn: number,
-): Promise<any> => {
-	try {
-		const res = await prisma.transaction.create({
-			data: {
-				user_id: user_id,
-				total_price: total_price,
-				total_qty: total_qty,
-				payment_method_id: payment_method_id,
-				payment_amount: payment_amount,
-				customer_name: customer_name,
-				payment_change: payment_change,
-				total_price_ppn: total_price_ppn,
-			},
-		});
-		return res;
-	} catch (err) {
-		throw err;
+export interface TransactionProps {
+	user_id: number;
+	total_price: number;
+	total_qty: number;
+	payment_method_id: number;
+	payment_amount: number;
+	customer_name: string;
+	payment_change: number;
+	total_price_ppn: number;
+}
+
+export interface GetTransactionFilters {
+	startDate: string;
+	endDate: string;
+	page: string;
+	pageSize: string;
+}
+
+export class TransactionQuery {
+	prisma: PrismaClient;
+
+	constructor() {
+		this.prisma = new PrismaClient();
 	}
-};
 
-export const findTransactionQuery = async (id: number) => {
-	try {
-		const res = await prisma.transaction.findUnique({
-			where: {
-				id: id,
-			},
-			include: {
-				payment_method: true,
-				transaction_detail: true,
-				user: true,
-			},
-		});
-		return res;
-	} catch (err) {
-		throw err;
+	public async createTransaction(transaction: TransactionProps) {
+		try {
+			const res = await this.prisma.transaction.create({
+				data: {
+					...transaction,
+				},
+			});
+			return res;
+		} catch (err) {
+			throw err;
+		}
 	}
-};
 
-export const getAllTransactionQuery = async (
-	page: number,
-	pageSize: number,
-	startDate?: string | null,
-	endDate?: string | null,
-) => {
-	try {
-		const skip = (page - 1) * pageSize;
-		const take = pageSize;
+	public async getTransactions(filters: GetTransactionFilters) {
+		const skip = (+filters.page - 1) * +filters.pageSize;
+		const take = +filters.pageSize;
 
-		// Calculate yesterday and tomorrow dates
 		const today = new Date();
-		const yesterday = new Date(today);
-		yesterday.setDate(today.getDate() - 1);
-		const tomorrow = new Date(today);
-		tomorrow.setDate(today.getDate() + 1);
+		const defaultStartDate = new Date(today);
+		const defaultEndDate = new Date(today);
+		defaultEndDate.setDate(today.getDate() + 1);
 
-		// Use provided startDate and endDate or default to yesterday and tomorrow
-		const start = startDate && startDate.trim() !== '' ? new Date(startDate) : yesterday;
-		const end = endDate && endDate.trim() !== '' ? new Date(endDate) : tomorrow;
-
-		// Create filter object
-		const filter = {
+		const newFilter = {
 			skip,
 			take,
-			orderBy: {
-				date: 'desc' as const, // Use 'desc' as a SortOrder
-			},
 			where: {
 				date: {
-					gte: start,
-					lte: end,
+					gt: defaultStartDate,
+					lt: defaultEndDate,
 				},
 			},
 		};
-		// Use the filter object in both findMany and count
-		const [transaction, count] = await prisma.$transaction([
-			prisma.transaction.findMany(filter),
-			prisma.transaction.count({
-				where: filter.where,
-			}),
-		]);
-		return {
-			pagination: {
-				total: count,
-			},
-			data: transaction,
-		};
-	} catch (err) {
-		throw err;
-	}
-};
-
-export const updateTransactionQuery = async (
-	id: number,
-	user_id: number,
-	date: string,
-	total_price: number,
-	total_qty: number,
-	payment_method_id: number,
-	payment_amount: number,
-	payment_change: number,
-) => {
-	try {
-		const res = await prisma.transaction.updateMany({
+		const totalFilter = {
 			where: {
-				id: id,
+				date: {
+					gt: new Date(0),
+					lt: defaultEndDate,
+				},
 			},
-			data: {
-				user_id: user_id,
-				date: date,
-				total_price: total_price,
-				total_qty: total_qty,
-				payment_method_id: payment_method_id,
-				payment_amount: payment_amount,
-				payment_change: payment_change,
+		};
+		if (filters.startDate) {
+			newFilter.where.date.gt = new Date(filters.startDate);
+			totalFilter.where.date.gt = new Date(filters.startDate);
+		}
+		if (filters.endDate) {
+			newFilter.where.date.lt = new Date(filters.endDate);
+			totalFilter.where.date.lt = new Date(filters.endDate);
+		}
+
+		const total = await this.prisma.transaction.count({ ...totalFilter });
+		const data = await this.prisma.transaction.findMany({
+			...newFilter,
+			include: {
+				transaction_detail: true,
 			},
 		});
-		return res;
-	} catch (err) {
-		throw err;
+		return {
+			total,
+			data,
+		};
 	}
-};
-
-export const groupTransactionByDateQuery = async () => {
-	try {
-		const res =
-			await prisma.$queryRaw`SELECT DATE_FORMAT(date, '%Y-%m-%d') AS date, AVG(total_price) AS total
-            FROM transaction
-            GROUP BY DATE_FORMAT(date, '%Y-%m-%d')`;
-		return res;
-	} catch (err) {
-		throw err;
-	}
-};
+}

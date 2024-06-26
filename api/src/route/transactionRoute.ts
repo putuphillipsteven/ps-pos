@@ -1,21 +1,8 @@
-import {
-  createTransactionController,
-  findTransactionController,
-  getAllTransactionController,
-  updateTransactionController,
-  groupTransactionByDateController,
-} from "../controller/transactionController";
-import express from "express";
+import { TransactionController } from '../controller/transactionController';
+import express from 'express';
 
+const transactionController = new TransactionController();
 const router = express.Router();
-
-router.post("/create", createTransactionController);
-router.get("/:id", findTransactionController);
-router.get("/", getAllTransactionController);
-router.get(
-  "/filter/bydate",
-  groupTransactionByDateController
-);
-router.patch("/", updateTransactionController);
-
+router.get('/', transactionController.getTransaction);
+router.post('/create', transactionController.createTransaction);
 export = router;

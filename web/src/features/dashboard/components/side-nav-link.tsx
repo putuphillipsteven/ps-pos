@@ -23,7 +23,6 @@ export const SideNavLink = ({ icon, text, to, sideNavDisplay }: SideNavLinkProps
 				alignItems={'center'}
 				border={checkLink(to, pathname) ? `1px solid ${theme.colors.border}` : 'transparent'}
 				background={checkLink(to, pathname) ? `secondary` : 'transparent'}
-				// boxShadow={checkLink(to, pathname) ? 'xs' : 'none'}
 				_hover={{
 					border: `1px solid ${theme.colors.border}`,
 					background: 'secondary',

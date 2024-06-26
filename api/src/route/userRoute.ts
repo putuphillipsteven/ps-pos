@@ -1,8 +1,10 @@
 import express from 'express';
-import { createUserController } from '../controller/userController';
 import { validator } from '../middleware/validator';
 import { body } from 'express-validator';
+import { UserController } from '../controller/userController';
+
 const router = express.Router();
+const userController = new UserController();
 
 const createUserValidations = [
 	body('full_name').notEmpty().withMessage('Email cant be empty'),
@@ -15,6 +17,7 @@ const createUserValidations = [
 		),
 	,
 ];
-router.post('/create-user', validator(createUserValidations), createUserController);
+
+router.post('/register', validator(createUserValidations), userController.createUser);
 
 export = router;
