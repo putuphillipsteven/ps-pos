@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const getProductQuery = async (id: number): Promise<any> => {
@@ -161,6 +161,16 @@ export interface CreateProductProps {
 	product_description: string;
 	product_status_id: number;
 }
+export interface UpdateProductProps {
+	id: number;
+	product_name: string;
+	product_group_id: number;
+	product_category_id: number;
+	product_price: number;
+	product_image: string;
+	product_description: string;
+	product_status_id: number;
+}
 
 export class ProductQuery {
 	prisma: PrismaClient;
@@ -172,6 +182,22 @@ export class ProductQuery {
 	public async createProduct(data: CreateProductProps) {
 		try {
 			const res = await this.prisma.product.create({ data: { ...data } });
+			return res;
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	public async updateProduct(data: UpdateProductProps) {
+		try {
+			const res = await this.prisma.product.updateMany({
+				where: {
+					id: data.id,
+				},
+				data: {
+					...data,
+				},
+			});
 			return res;
 		} catch (err) {
 			throw err;
