@@ -163,13 +163,13 @@ export interface CreateProductProps {
 }
 export interface UpdateProductProps {
 	id: number;
-	product_name: string;
-	product_group_id: number;
-	product_category_id: number;
-	product_price: number;
-	product_image: string;
-	product_description: string;
-	product_status_id: number;
+	product_name?: string;
+	product_group_id?: number;
+	product_category_id?: number;
+	product_price?: number;
+	product_image?: string;
+	product_description?: string;
+	product_status_id?: number;
 }
 
 export class ProductQuery {
@@ -190,13 +190,20 @@ export class ProductQuery {
 
 	public async updateProduct(data: UpdateProductProps) {
 		try {
-			const res = await this.prisma.product.updateMany({
-				where: {
-					id: data.id,
-				},
-				data: {
-					...data,
-				},
+			const dataToUpdate: any = {}; // Use `any` type temporarily for simplicity
+
+			if (data.product_name) dataToUpdate.product_name = data.product_name;
+			if (data.product_price) dataToUpdate.product_price = Number(data.product_price);
+			if (data.product_category_id)
+				dataToUpdate.product_category_id = Number(data.product_category_id);
+			if (data.product_image) dataToUpdate.product_image = data.product_image;
+			if (data.product_description) dataToUpdate.product_description = data.product_description;
+			if (data.product_group_id) dataToUpdate.product_group_id = Number(data.product_group_id);
+			if (data.product_status_id) dataToUpdate.product_status_id = Number(data.product_status_id);
+
+			const res = await prisma.product.update({
+				where: { id: data.id },
+				data: { ...dataToUpdate },
 			});
 			return res;
 		} catch (err) {

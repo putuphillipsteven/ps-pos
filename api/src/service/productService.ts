@@ -6,6 +6,7 @@ import {
 	updateProductQuery,
 	ProductQuery,
 	CreateProductProps,
+	UpdateProductProps,
 } from '../query/productQuery';
 import { TransactionQuery } from '../query/transactionQuery';
 
@@ -126,6 +127,15 @@ export class ProductService {
 	public async createProduct(data: CreateProductProps) {
 		try {
 			const res = await this.productQuery.createProduct(data);
+			return res;
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	public async updateProduct(data: UpdateProductProps) {
+		try {
+			const res = await this.productQuery.updateProduct(data);
 			return res;
 		} catch (err) {
 			throw err;

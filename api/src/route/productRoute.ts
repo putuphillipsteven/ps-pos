@@ -8,10 +8,6 @@ const productController = new ProductController();
 // router.get("/find/filter", findProductController);
 // router.get("/:id", getProductController);
 router.post('/create', uploadProductFile, productController.createProduct);
-// router.patch(
-//   "/:id",
-//   uploadProductFile,
-//   updateProductController
-// );
+router.patch('/update/:id', uploadProductFile, productController.updateProduct);
 
 export = router;

@@ -9,6 +9,7 @@ import {
 } from '../service/productService';
 import { TransactionService } from '../service/transactionService';
 import { sendResponse } from '../utils/utilts';
+import { UpdateProductProps } from '../query/productQuery';
 
 export const getProductController = async (req: Request, res: Response) => {
 	const { id } = req.params;
@@ -128,7 +129,6 @@ export const updateProductController = async (req: Request, res: Response) => {
 			product_description || product_description,
 			newProductStatus || product_status_id,
 		);
-		console.log(product_status_id);
 
 		return res.status(200).json({
 			message: 'success',
@@ -144,17 +144,12 @@ export class ProductController {
 	constructor() {
 		this.productService = new ProductService();
 		this.createProduct = this.createProduct.bind(this);
+		this.updateProduct = this.updateProduct.bind(this);
 	}
 
 	public async createProduct(req: Request, res: Response, next: NextFunction) {
 		try {
-			const {
-				product_price,
-				product_category_id,
-				product_group_id,
-				product_status_id,
-				...restBody
-			} = req.body;
+			const { product_price, product_category_id, product_group_id, product_status_id } = req.body;
 			const result = await this.productService.createProduct({
 				...req.body,
 				product_price: Number(product_price),
@@ -164,6 +159,34 @@ export class ProductController {
 				product_image: req?.file?.filename,
 			});
 			sendResponse(res, 200, 'Create Product Success', result);
+		} catch (err) {
+			next(err);
+		}
+	}
+	public async updateProduct(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { id } = req.params; // Extract id from req.params
+			const {
+				product_category_id,
+				product_group_id,
+				product_price,
+				product_status_id,
+				product_image,
+			} = req.body as UpdateProductProps; // Type assertion to UpdateProductProps
+
+			// Prepare data object for updateProduct service method
+			const updateData: UpdateProductProps = {
+				id: Number(id),
+				product_category_id: Number(product_category_id),
+				product_group_id: Number(product_group_id),
+				product_price: Number(product_price),
+				product_status_id: Number(product_status_id),
+				product_image: req?.file?.filename || product_image,
+				...req.body,
+			};
+
+			const result = await this.productService.updateProduct(updateData);
+			sendResponse(res, 200, 'Update Product Success', result);
 		} catch (err) {
 			next(err);
 		}
