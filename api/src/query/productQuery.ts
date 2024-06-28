@@ -1,4 +1,9 @@
 import { Prisma, PrismaClient } from '@prisma/client';
+import {
+	CreateProductProps,
+	GetProductFilterProps,
+	UpdateProductProps,
+} from '../entities/product.entities';
 const prisma = new PrismaClient();
 
 export const getProductQuery = async (id: number): Promise<any> => {
@@ -152,31 +157,98 @@ export const updateProductQuery = async (
 	}
 };
 
-export interface CreateProductProps {
-	product_name: string;
-	product_group_id: number;
-	product_category_id: number;
-	product_price: number;
-	product_image: string;
-	product_description: string;
-	product_status_id: number;
-}
-export interface UpdateProductProps {
-	id: number;
-	product_name?: string;
-	product_group_id?: number;
-	product_category_id?: number;
-	product_price?: number;
-	product_image?: string;
-	product_description?: string;
-	product_status_id?: number;
-}
-
 export class ProductQuery {
 	prisma: PrismaClient;
 
 	constructor() {
 		this.prisma = new PrismaClient();
+	}
+
+	public async findProductByName(product_name: string) {
+		try {
+			const res = await this.prisma.product.findFirst({
+				where: {
+					product_name,
+				},
+				select: {
+					product_name: true,
+				},
+			});
+			return res;
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	public async getProducts(filters: GetProductFilterProps) {
+		const skip = (Number(filters.page) - 1) * +filters.pageSize;
+		const take = Number(filters.pageSize);
+
+		const newFilter = {
+			skip,
+			take,
+			where: {},
+			orderBy: {},
+		};
+
+		const newInlude = {
+			status: true,
+			product_group: true,
+			product_category: true,
+		};
+
+		if (filters.product_name) {
+			newFilter.where = {
+				product_name: { contains: filters?.product_name },
+			};
+		}
+
+		if (filters.product_category_id) {
+			newFilter.where = {
+				product_category_id: filters.product_category_id,
+			};
+		}
+
+		if (filters?.branch_id) {
+			newFilter.where = {
+				branch_id: filters?.branch_id,
+			};
+		}
+
+		if (filters?.stock) {
+			newFilter.where = {
+				stock: {
+					include: {
+						branch: true,
+					},
+					where: {
+						quantity: {
+							gte: 0,
+							lte: filters?.stock,
+						},
+					},
+				},
+			};
+		}
+
+		if (filters?.sort) {
+			newFilter.orderBy = {
+				product_name: filters?.sort,
+			};
+		}
+
+		const total = await this.prisma.product.count({});
+		const data = await this.prisma.product.findMany({
+			...newFilter,
+			include: {
+				...newInlude,
+			},
+		});
+
+		return {
+			total,
+			data,
+		};
 	}
 
 	public async createProduct(data: CreateProductProps) {

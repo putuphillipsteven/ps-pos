@@ -1,14 +1,16 @@
 import {
+	CreateProductProps,
+	GetProductFilterProps,
+	UpdateProductProps,
+} from '../entities/product.entities';
+import {
 	getProductQuery,
 	getAllProductQuery,
 	findProductQuery,
 	createProductQuery,
 	updateProductQuery,
 	ProductQuery,
-	CreateProductProps,
-	UpdateProductProps,
 } from '../query/productQuery';
-import { TransactionQuery } from '../query/transactionQuery';
 
 export const getProductService = async (id: number) => {
 	try {
@@ -136,6 +138,15 @@ export class ProductService {
 	public async updateProduct(data: UpdateProductProps) {
 		try {
 			const res = await this.productQuery.updateProduct(data);
+			return res;
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	public async getProducts(filter: GetProductFilterProps) {
+		try {
+			const res = await this.productQuery.getProducts(filter);
 			return res;
 		} catch (err) {
 			throw err;

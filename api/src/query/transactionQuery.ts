@@ -47,8 +47,8 @@ export class TransactionQuery {
 	}
 
 	public async getTransactions(filters: GetTransactionFilters) {
-		const skip = (+filters.page - 1) * +filters.pageSize;
-		const take = +filters.pageSize;
+		const skip = (Number(filters.page) - 1) * +filters.pageSize;
+		const take = Number(filters.pageSize);
 
 		const today = new Date();
 		const defaultStartDate = new Date(today);
@@ -65,6 +65,7 @@ export class TransactionQuery {
 				},
 			},
 		};
+
 		const totalFilter = {
 			where: {
 				date: {

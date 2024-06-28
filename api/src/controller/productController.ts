@@ -7,9 +7,9 @@ import {
 	updateProductService,
 	ProductService,
 } from '../service/productService';
-import { TransactionService } from '../service/transactionService';
 import { sendResponse } from '../utils/utilts';
-import { UpdateProductProps } from '../query/productQuery';
+import { GetProductFilterProps, UpdateProductProps } from '../entities/product.entities';
+import { ParsedQs } from 'qs';
 
 export const getProductController = async (req: Request, res: Response) => {
 	const { id } = req.params;
@@ -145,6 +145,7 @@ export class ProductController {
 		this.productService = new ProductService();
 		this.createProduct = this.createProduct.bind(this);
 		this.updateProduct = this.updateProduct.bind(this);
+		this.getProduct = this.getProduct.bind(this);
 	}
 
 	public async createProduct(req: Request, res: Response, next: NextFunction) {
@@ -163,18 +164,18 @@ export class ProductController {
 			next(err);
 		}
 	}
+
 	public async updateProduct(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { id } = req.params; // Extract id from req.params
+			const { id } = req.params;
 			const {
 				product_category_id,
 				product_group_id,
 				product_price,
 				product_status_id,
 				product_image,
-			} = req.body as UpdateProductProps; // Type assertion to UpdateProductProps
+			} = req.body as UpdateProductProps;
 
-			// Prepare data object for updateProduct service method
 			const updateData: UpdateProductProps = {
 				id: Number(id),
 				product_category_id: Number(product_category_id),
@@ -187,6 +188,26 @@ export class ProductController {
 
 			const result = await this.productService.updateProduct(updateData);
 			sendResponse(res, 200, 'Update Product Success', result);
+		} catch (err) {
+			next(err);
+		}
+	}
+
+	public async getProduct(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { branch_id, page, pageSize, product_category_id, product_name, sort, stock } =
+				req.query as ParsedQs & GetProductFilterProps;
+			const filters: GetProductFilterProps = {
+				branch_id,
+				page,
+				pageSize,
+				product_category_id,
+				product_name,
+				sort,
+				stock,
+			};
+			const result = await this.productService.getProducts(filters);
+			sendResponse(res, 200, 'Get Product Success', result);
 		} catch (err) {
 			next(err);
 		}
