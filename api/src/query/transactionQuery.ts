@@ -87,6 +87,8 @@ export class TransactionQuery {
 		const data = await this.prisma.transaction.findMany({
 			...newFilter,
 			include: {
+				user: true,
+				payment_method: true,
 				transaction_detail: true,
 			},
 		});

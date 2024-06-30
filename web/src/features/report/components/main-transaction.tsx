@@ -37,7 +37,7 @@ export default function MainTransaction() {
 		return transaction;
 	};
 
-	const [transactions, setTransactions] = useState<Transaction[] | undefined>([]);
+	const [transactions, setTransactions] = useState<any | undefined>([]);
 
 	useEffect(() => {
 		const fetchTransactions = async () => {
@@ -154,69 +154,18 @@ export default function MainTransaction() {
 							</Tr>
 						</Thead>
 						<Tbody>
-							<Tr>
-								<Td>#1234</Td>
-								<Td>John Doe</Td>
-								<Td>Thu, 16 Nov 2023</Td>
-								<Td>Qris</Td>
-								<Td>Rp. 20.000</Td>
-								<Td>Jane Doe</Td>
-								<Td>Details</Td>
-							</Tr>
-							<Tr>
-								<Td>#1234</Td>
-								<Td>John Doe</Td>
-								<Td>Thu, 16 Nov 2023</Td>
-								<Td>Qris</Td>
-								<Td>Rp. 20.000</Td>
-								<Td>Jane Doe</Td>
-								<Td>Details</Td>
-							</Tr>
-							<Tr>
-								<Td>#1234</Td>
-								<Td>John Doe</Td>
-								<Td>Thu, 16 Nov 2023</Td>
-								<Td>Qris</Td>
-								<Td>Rp. 20.000</Td>
-								<Td>Jane Doe</Td>
-								<Td>Details</Td>
-							</Tr>
-							<Tr>
-								<Td>#1234</Td>
-								<Td>John Doe</Td>
-								<Td>Thu, 16 Nov 2023</Td>
-								<Td>Qris</Td>
-								<Td>Rp. 20.000</Td>
-								<Td>Jane Doe</Td>
-								<Td>Details</Td>
-							</Tr>
-							<Tr>
-								<Td>#1234</Td>
-								<Td>John Doe</Td>
-								<Td>Thu, 16 Nov 2023</Td>
-								<Td>Qris</Td>
-								<Td>Rp. 20.000</Td>
-								<Td>Jane Doe</Td>
-								<Td>Details</Td>
-							</Tr>
-							<Tr>
-								<Td>#1234</Td>
-								<Td>John Doe</Td>
-								<Td>Thu, 16 Nov 2023</Td>
-								<Td>Qris</Td>
-								<Td>Rp. 20.000</Td>
-								<Td>Jane Doe</Td>
-								<Td>Details</Td>
-							</Tr>
-							<Tr>
-								<Td>#1234</Td>
-								<Td>John Doe</Td>
-								<Td>Thu, 16 Nov 2023</Td>
-								<Td>Qris</Td>
-								<Td>Rp. 20.000</Td>
-								<Td>Jane Doe</Td>
-								<Td>Details</Td>
-							</Tr>
+							{transactions?.map((transaction: any) => {
+								return (
+									<Tr>
+										<Td>00{transaction?.id}</Td>
+										<Td>{transaction?.customer_name}</Td>
+										<Td>{transaction?.date}</Td>
+										<Td>{transaction?.payment_method?.method_name}</Td>
+										<Td>{transaction?.payment_amount}</Td>
+										<Td>{transaction?.user?.full_name}</Td>
+									</Tr>
+								);
+							})}
 						</Tbody>
 					</Table>
 					<Pagination />
