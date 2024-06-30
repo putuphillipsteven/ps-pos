@@ -7,6 +7,7 @@ export interface CreateProductProps {
 	product_description: string;
 	product_status_id: number;
 }
+
 export interface UpdateProductProps extends CreateProductProps {
 	id: number;
 }

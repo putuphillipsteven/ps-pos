@@ -16,9 +16,39 @@ import {
 } from '@chakra-ui/react';
 import { TfiStatsUp } from 'react-icons/tfi';
 import { TfiStatsDown } from 'react-icons/tfi';
-import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import Pagination from './pagination';
+import { TransactionRepository } from '../../../repositories/transaction.repository';
+import { TransactionInteractor } from '../../../interactor/transaction.interactor';
+import { TransactionController } from '../../../controller/transaction.controller';
+import { useEffect, useState } from 'react';
+import { Transaction } from '../../../entities/transaction';
 export default function MainTransaction() {
+	const transactionRepository = new TransactionRepository();
+	const transactionInteractor = new TransactionInteractor(transactionRepository);
+	const transactionController = new TransactionController(transactionInteractor);
+
+	const getTransactions = async () => {
+		const transaction = await transactionController.onGetTransaction({
+			endDate: '2024-06-30',
+			page: '1',
+			pageSize: '10',
+			startDate: '2024-06-01',
+		});
+		return transaction;
+	};
+
+	const [transactions, setTransactions] = useState<Transaction[] | undefined>([]);
+
+	useEffect(() => {
+		const fetchTransactions = async () => {
+			const response = await getTransactions(); // getTransactions() returns a Promise<Transaction[] | undefined>
+			setTransactions(response); // This line is correct
+		};
+
+		fetchTransactions();
+	}, []);
+
+	console.log('[TRANSACTION]', transactions);
 	const theme = useTheme();
 	return (
 		<Box w={'100%'} h={'100%'} py={'.5em'} display={'flex'} flexDir={'column'} rowGap={4}>

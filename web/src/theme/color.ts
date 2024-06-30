@@ -89,19 +89,6 @@ export const colors = {
 		800: '#4d2a00',
 		900: '#1d0d00',
 	},
-<<<<<<< HEAD
-	green: '#07C180',
-	primary: '#ED1C24',
-	'primary-content': '#FFD6D8',
-	secondary: '#F99B2A',
-	'secondary-content': '#FFDAAD',
-	accent: '#07C180',
-	'base-100': '#FAFAFA',
-	'base-200': '#DBDBDB',
-	'base-300': '#6D6D6D',
-	'base-content': '#EEF1F2',
-	'text-primary': '#1C1D21',
-=======
 	background: '#FFFFFF',
 	foreground: '#080808',
 	card: '#FFFFFF',
@@ -122,5 +109,4 @@ export const colors = {
 	input: '#E5E5E5',
 	ring: '#1A1A1A',
 	radius: ' 0rem',
->>>>>>> ps-pos-bug-fixing
 };

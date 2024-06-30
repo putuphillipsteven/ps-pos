@@ -43,7 +43,6 @@ export default function Pagination() {
 		setPage(parseInt(searchParams.get('page') || '1'));
 	}, [searchParams]);
 
-	console.log('[pagination]', pagination);
 	return (
 		<Box
 			w={'fit-content'}
