@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { Product } from '../entities/product';
-import { CreateProductProps } from './i.product.interactor';
+import { CreateProductProps, UpdateProductProps } from './i.product.interactor';
 
 export interface IProductRepository {
-	createProduct(input: CreateProductProps): any;
+	createProduct(args: CreateProductProps): Promise<Product | undefined>;
+	updateProduct(args: UpdateProductProps): Promise<Product | undefined>;
 }

@@ -11,18 +11,30 @@ const interactor = new ProductInteractor(repository);
 const controller = new ProductController(interactor);
 
 const router = express.Router();
-const createUserValidations = [
+
+const createProductValidations = [
 	body('product_name').notEmpty().withMessage('Product name cant be empty'),
 	body('product_group_id').notEmpty().withMessage('Product group cant be empty'),
 	body('product_category_id').notEmpty().withMessage('Product category cant be empty'),
-	body('product_price').isInt({ min: 0 }).withMessage('Product price cant less than zero'),
+	body('product_price').isInt({ min: 100 }).withMessage('Product price cant 100 rupiah'),
 	body('product_status_id').notEmpty().withMessage('Product status cant be empty'),
 ];
+
+const updateProductValidations = [
+	body('product_price').isInt({ min: 100 }).withMessage('Product price cant 100 rupiah'),
+];
+
 router.post(
 	'/create',
 	uploadProductFile,
-	validator(createUserValidations),
+	validator(createProductValidations),
 	controller.onCreateProduct.bind(controller),
+);
+router.patch(
+	'/update/:id',
+	uploadProductFile,
+	validator(updateProductValidations),
+	controller.onUpdateProduct.bind(controller),
 );
 
 export = router;

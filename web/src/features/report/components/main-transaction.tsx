@@ -21,7 +21,6 @@ import { TransactionRepository } from '../../../repositories/transaction.reposit
 import { TransactionInteractor } from '../../../interactor/transaction.interactor';
 import { TransactionController } from '../../../controller/transaction.controller';
 import { useEffect, useState } from 'react';
-import { Transaction } from '../../../entities/transaction';
 export default function MainTransaction() {
 	const transactionRepository = new TransactionRepository();
 	const transactionInteractor = new TransactionInteractor(transactionRepository);

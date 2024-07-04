@@ -11,7 +11,6 @@ export class TransactionController {
 
 	async onCreateTransaction(filter: GetTransactionFilters) {
 		try {
-			console.log('[PROCESS START]');
 			const transaction = await this.interactor.get(filter);
 			return transaction;
 		} catch (error) {
