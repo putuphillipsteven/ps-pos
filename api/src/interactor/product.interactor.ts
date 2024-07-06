@@ -1,6 +1,8 @@
 import { Product } from '../entities/product';
 import {
 	CreateProductProps,
+	GetProductFilterProps,
+	GetProductReturnProps,
 	IProductInteractor,
 	UpdateProductProps,
 } from '../interfaces/i.product.interactor';
@@ -11,6 +13,14 @@ export class ProductInteractor implements IProductInteractor {
 
 	constructor(repository: IProductRepository) {
 		this.repository = repository;
+	}
+	async get(args: GetProductFilterProps): Promise<GetProductReturnProps | undefined> {
+		try {
+			const products = await this.repository.getProduct(args);
+			return products;
+		} catch (error) {
+			throw error;
+		}
 	}
 
 	async update(args: UpdateProductProps): Promise<Product | undefined> {

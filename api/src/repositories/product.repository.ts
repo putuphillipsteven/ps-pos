@@ -1,5 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import { CreateProductProps, UpdateProductProps } from '../interfaces/i.product.interactor';
+import {
+	CreateProductProps,
+	GetProductFilterProps,
+	GetProductReturnProps,
+	UpdateProductProps,
+} from '../interfaces/i.product.interactor';
 import { IProductRepository } from '../interfaces/i.product.repository';
 import { Product } from '../entities/product';
 
@@ -8,6 +13,106 @@ export class ProductRepository implements IProductRepository {
 
 	constructor() {
 		this.prisma = new PrismaClient();
+	}
+	async getProduct(args: GetProductFilterProps): Promise<GetProductReturnProps | undefined> {
+		try {
+			const skip = (Number(args.page) - 1) * Number(args.pageSize);
+			const take = Number(args.pageSize);
+
+			const newFilter = {
+				skip,
+				take,
+				where: {},
+				orderBy: {},
+			};
+
+			const newInclude = {
+				status: true,
+				product_group: true,
+				product_category: true,
+				stock: {},
+			};
+
+			if (args.product_name) {
+				newFilter.where = {
+					product_name: { contains: args?.product_name },
+				};
+			}
+
+			if (args.product_category_id) {
+				newFilter.where = {
+					product_category_id: args.product_category_id,
+				};
+			}
+
+			// if (args?.branch_id) {
+			// 	newFilter.where = {
+			// 		branch_id: args?.branch_id,
+			// 	};
+			// }
+			const totalFilter = {
+				where: {},
+			};
+			if (args?.stock) {
+				newInclude.stock = {
+					where: { branch_id: { equals: args?.branch_id } },
+					include: {
+						branch: {
+							select: { branch_name: true },
+						},
+					},
+				};
+				newFilter.where = {
+					stock: {
+						some: {
+							AND: [
+								{
+									branch_id: { equals: args?.branch_id },
+								},
+								{
+									quantity: { gt: 0, lte: args?.stock },
+								},
+							],
+						},
+					},
+				};
+				totalFilter.where = {
+					stock: {
+						some: {
+							AND: [
+								{
+									branch_id: { equals: args?.branch_id },
+								},
+								{
+									quantity: { gt: 0, lte: args?.stock },
+								},
+							],
+						},
+					},
+				};
+			}
+
+			if (args?.sort) {
+				newFilter.orderBy = {
+					product_name: args?.sort,
+				};
+			}
+
+			const total = await this.prisma.product.count(totalFilter);
+			const data = await this.prisma.product.findMany({
+				...newFilter,
+				include: {
+					...newInclude,
+				},
+			});
+
+			return {
+				total,
+				data,
+			};
+		} catch (error) {
+			throw error;
+		}
 	}
 
 	async updateProduct(args: UpdateProductProps): Promise<Product | undefined> {

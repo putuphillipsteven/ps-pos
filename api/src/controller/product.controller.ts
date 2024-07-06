@@ -1,13 +1,35 @@
 import { NextFunction, Request, Response } from 'express';
-import { IProductInteractor, UpdateProductProps } from '../interfaces/i.product.interactor';
+import {
+	GetProductFilterProps,
+	IProductInteractor,
+	UpdateProductProps,
+} from '../interfaces/i.product.interactor';
 import { sendResponse } from '../utils/utilts';
-import { Product } from '../entities/product';
-
+import { ParsedQs } from 'qs';
 export class ProductController {
 	private interactor: IProductInteractor;
 
 	constructor(interactor: IProductInteractor) {
 		this.interactor = interactor;
+	}
+	async onGetProduct(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { branch_id, page, pageSize, product_category_id, product_name, sort, stock } =
+				req.query as ParsedQs & GetProductFilterProps;
+			const filters: GetProductFilterProps = {
+				branch_id: Number(branch_id),
+				page,
+				pageSize,
+				product_category_id,
+				product_name,
+				sort,
+				stock: Number(stock),
+			};
+			const result = await this.interactor.get(filters);
+			sendResponse(res, 200, 'Get Product Success', result);
+		} catch (error) {
+			next(error);
+		}
 	}
 
 	async onUpdateProduct(req: Request, res: Response, next: NextFunction) {

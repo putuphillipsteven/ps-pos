@@ -24,9 +24,15 @@ export interface GetProductFilterProps {
 	stock: number;
 }
 
+export interface GetProductReturnProps {
+	total: number;
+	data: Product[];
+}
+
 export interface UpdateProductProps extends CreateProductProps {}
 
 export interface IProductInteractor {
 	create(args: CreateProductProps): Promise<Product | undefined>;
 	update(args: UpdateProductProps): Promise<Product | undefined>;
+	get(args: GetProductFilterProps): Promise<GetProductReturnProps | undefined>;
 }

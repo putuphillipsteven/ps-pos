@@ -4,6 +4,7 @@ import {
 	GetProductFilterProps,
 	UpdateProductProps,
 } from '../entities/product.entities';
+import { equal } from 'assert';
 const prisma = new PrismaClient();
 
 export const getProductQuery = async (id: number): Promise<any> => {
@@ -43,33 +44,63 @@ export const getAllProductQuery = async (
 			filter.product_group_id = product_group_id;
 		}
 		if (product_name) filter.product_name = product_name;
+		console.log('[FILTER]', filter);
 		const res = await prisma.product.findMany({
 			skip,
 			take,
 			where: {
-				...filter,
+				// ...filter,
+				stock: {
+					some: {
+						AND: [
+							{
+								branch_id: { equals: branch_id },
+							},
+							{
+								quantity: { gt: 0, lte: lte },
+							},
+						],
+					},
+				},
 			},
+
 			include: {
 				status: true,
 				product_group: true,
 				product_category: true,
 				stock: {
+					where: { branch_id: { equals: branch_id } },
 					include: {
-						branch: true,
-					},
-					where: {
-						quantity: {
-							gte: gte,
-							lte: lte,
+						branch: {
+							select: { branch_name: true },
 						},
-						branch_id: branch_id,
 					},
 				},
+				// stock: {
+				// 	include: {
+				// 		branch: true,
+				// 	},
+				// 	where: {
+				// 		quantity: {
+				// 			gte: 0,
+				// 			lte: lte,
+				// 		},
+				// 		branch_id: branch_id,
+				// 	},
+				// },
+				// stock: {
+				// 	select: {
+				// 		branch: true,
+				// 		product: true,
+				// 	},
+				// },
 			},
 			orderBy: {
-				[sortField]: sortOrder as any,
+				// [sortField]: sortOrder as any,
+				product_name: 'asc',
 			},
 		});
+
 		return res;
 	} catch (err) {
 		throw err;
@@ -181,7 +212,7 @@ export class ProductQuery {
 	}
 
 	public async getProducts(filters: GetProductFilterProps) {
-		const skip = (Number(filters.page) - 1) * +filters.pageSize;
+		const skip = (Number(filters.page) - 1) * Number(filters.pageSize);
 		const take = Number(filters.pageSize);
 
 		const newFilter = {
@@ -191,7 +222,7 @@ export class ProductQuery {
 			orderBy: {},
 		};
 
-		const newInlude = {
+		const newInclude = {
 			status: true,
 			product_group: true,
 			product_category: true,
@@ -241,7 +272,7 @@ export class ProductQuery {
 		const data = await this.prisma.product.findMany({
 			...newFilter,
 			include: {
-				...newInlude,
+				...newInclude,
 			},
 		});
 

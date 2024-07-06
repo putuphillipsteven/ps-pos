@@ -5,6 +5,7 @@ import { ProductRepository } from '../repositories/product.repository';
 import { uploadProductFile } from '../middleware/multer';
 import { body } from 'express-validator';
 import { validator } from '../middleware/validator';
+import { getAllProductController } from '../controller/productController';
 
 const repository = new ProductRepository();
 const interactor = new ProductInteractor(repository);
@@ -24,6 +25,8 @@ const updateProductValidations = [
 	body('product_price').isInt({ min: 100 }).withMessage('Product price cant 100 rupiah'),
 ];
 
+router.get('/', controller.onGetProduct.bind(controller));
+// router.get('/', getAllProductController);
 router.post(
 	'/create',
 	uploadProductFile,

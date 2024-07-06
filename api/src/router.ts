@@ -18,7 +18,7 @@ const cartRoute = require('./route/cartRoute');
 router.use('/cart', cartRoute);
 
 const productRoute = require('./route/product.route');
-router.use('/product', productRoute);
+router.use('/products', productRoute);
 
 const branchRoute = require('./route/branchRoute');
 router.use('/branch', branchRoute);
