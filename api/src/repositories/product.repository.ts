@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import {
 	CreateProductProps,
+	DeleteProductProps,
+	DeleteProductReturnProps,
 	GetProductFilterProps,
 	GetProductReturnProps,
 	UpdateProductProps,
@@ -13,6 +15,16 @@ export class ProductRepository implements IProductRepository {
 
 	constructor() {
 		this.prisma = new PrismaClient();
+	}
+	async deleteProduct(args: DeleteProductProps): Promise<Product | undefined> {
+		try {
+			const checkProductExists = await this.prisma.product.findUnique({ where: { id: args.id } });
+			if (!checkProductExists) throw new Error('Product doesnt exist');
+			const res = await this.prisma.product.delete({ where: { id: args.id } });
+			return res;
+		} catch (error) {
+			throw error;
+		}
 	}
 	async getProduct(args: GetProductFilterProps): Promise<GetProductReturnProps | undefined> {
 		try {
@@ -45,14 +57,10 @@ export class ProductRepository implements IProductRepository {
 				};
 			}
 
-			// if (args?.branch_id) {
-			// 	newFilter.where = {
-			// 		branch_id: args?.branch_id,
-			// 	};
-			// }
 			const totalFilter = {
 				where: {},
 			};
+
 			if (args?.stock) {
 				newInclude.stock = {
 					where: { branch_id: { equals: args?.branch_id } },

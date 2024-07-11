@@ -1,7 +1,8 @@
-import { PrismaClient } from '@prisma/client';
 import { Product } from '../entities/product';
 import {
 	CreateProductProps,
+	DeleteProductProps,
+	DeleteProductReturnProps,
 	GetProductFilterProps,
 	GetProductReturnProps,
 	UpdateProductProps,
@@ -11,4 +12,5 @@ export interface IProductRepository {
 	createProduct(args: CreateProductProps): Promise<Product | undefined>;
 	updateProduct(args: UpdateProductProps): Promise<Product | undefined>;
 	getProduct(args: GetProductFilterProps): Promise<GetProductReturnProps | undefined>;
+	deleteProduct(args: DeleteProductProps): Promise<Product | undefined>;
 }

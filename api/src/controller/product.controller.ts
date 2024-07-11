@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import {
+	DeleteProductProps,
+	DeleteProductReturnProps,
 	GetProductFilterProps,
 	IProductInteractor,
 	UpdateProductProps,
@@ -12,6 +14,20 @@ export class ProductController {
 	constructor(interactor: IProductInteractor) {
 		this.interactor = interactor;
 	}
+
+	async onDeleteProdut(req: Request, res: Response, next: NextFunction) {
+		try {
+			const { id } = req.params;
+			const args: DeleteProductProps = {
+				id: Number(id),
+			};
+			const result = await this.interactor.delete(args);
+			sendResponse(res, 200, 'Get Product Success', result);
+		} catch (error) {
+			next(error);
+		}
+	}
+
 	async onGetProduct(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { branch_id, page, pageSize, product_category_id, product_name, sort, stock } =

@@ -39,5 +39,6 @@ router.patch(
 	validator(updateProductValidations),
 	controller.onUpdateProduct.bind(controller),
 );
+router.delete('/delete/:id', controller.onDeleteProdut.bind(controller));
 
 export = router;

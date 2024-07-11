@@ -29,10 +29,20 @@ export interface GetProductReturnProps {
 	data: Product[];
 }
 
+export interface DeleteProductReturnProps {
+	message: string;
+	data: Product;
+}
+
 export interface UpdateProductProps extends CreateProductProps {}
+
+export interface DeleteProductProps {
+	id: number;
+}
 
 export interface IProductInteractor {
 	create(args: CreateProductProps): Promise<Product | undefined>;
 	update(args: UpdateProductProps): Promise<Product | undefined>;
 	get(args: GetProductFilterProps): Promise<GetProductReturnProps | undefined>;
+	delete(args: DeleteProductProps): Promise<Product | undefined>;
 }
