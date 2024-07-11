@@ -5,7 +5,7 @@ import {
 	GetProductFilterProps,
 	IProductInteractor,
 	UpdateProductProps,
-} from '../interfaces/i.product.interactor';
+} from '../interfaces/product/i.product.interactor';
 import { sendResponse } from '../utils/utilts';
 import { ParsedQs } from 'qs';
 export class ProductController {

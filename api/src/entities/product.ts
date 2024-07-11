@@ -1,11 +1,14 @@
-export class Product {
+import { Product as PrismaProduct } from '@prisma/client';
+
+export class Product implements PrismaProduct {
 	constructor(
-		public readonly id: number,
-		public readonly product_name: string,
-		public readonly product_group_id: number,
-		public readonly product_price: number,
-		public readonly product_image: string,
-		public readonly product_description: string | null,
-		public readonly product_status_id: number,
+		public id: number,
+		public product_name: string,
+		public product_group_id: number,
+		public product_price: number,
+		public product_image: string,
+		public product_description: string | null,
+		public product_status_id: number,
+		public product_category_id: number,
 	) {}
 }

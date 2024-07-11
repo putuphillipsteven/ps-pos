@@ -1,8 +1,7 @@
-import { Product } from '../entities/product';
+import { Product } from '../../entities/product';
 import {
 	CreateProductProps,
 	DeleteProductProps,
-	DeleteProductReturnProps,
 	GetProductFilterProps,
 	GetProductReturnProps,
 	UpdateProductProps,

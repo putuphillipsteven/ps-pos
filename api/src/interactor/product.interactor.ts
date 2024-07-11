@@ -7,8 +7,8 @@ import {
 	GetProductReturnProps,
 	IProductInteractor,
 	UpdateProductProps,
-} from '../interfaces/i.product.interactor';
-import { IProductRepository } from '../interfaces/i.product.repository';
+} from '../interfaces/product/i.product.interactor';
+import { IProductRepository } from '../interfaces/product/i.product.repository';
 
 export class ProductInteractor implements IProductInteractor {
 	private repository: IProductRepository;

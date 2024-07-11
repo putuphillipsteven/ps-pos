@@ -6,8 +6,8 @@ import {
 	GetProductFilterProps,
 	GetProductReturnProps,
 	UpdateProductProps,
-} from '../interfaces/i.product.interactor';
-import { IProductRepository } from '../interfaces/i.product.repository';
+} from '../interfaces/product/i.product.interactor';
+import { IProductRepository } from '../interfaces/product/i.product.repository';
 import { Product } from '../entities/product';
 
 export class ProductRepository implements IProductRepository {

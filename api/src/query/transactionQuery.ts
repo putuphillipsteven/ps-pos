@@ -74,7 +74,7 @@ export class TransactionQuery {
 				},
 			},
 		};
-		
+
 		if (filters.startDate) {
 			newFilter.where.date.gt = new Date(filters.startDate);
 			totalFilter.where.date.gt = new Date(filters.startDate);
