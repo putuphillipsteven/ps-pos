@@ -8,6 +8,10 @@ export interface TransactionDetailsProps {
 	cart_id?: number;
 }
 
+export interface GetTransactionReturnProps {
+	total: number;
+	data: Transaction[];
+}
 export interface TransactionProps {
 	user_id: number;
 	total_price: number;
@@ -28,10 +32,11 @@ export interface GetTransactionFilters {
 	endDate: string;
 	page: string;
 	pageSize: string;
+	payment_method_id: number;
 }
 
 export interface ITransactionInteractor {
-	get(args: GetTransactionFilters): Promise<Transaction[] | undefined>;
+	get(args: GetTransactionFilters): Promise<GetTransactionReturnProps | undefined>;
 	create(args: CreateTransactionWithDetailsProps): Promise<Transaction | undefined>;
 	update(): Promise<Transaction | undefined>;
 	delete(): Promise<Transaction | undefined>;

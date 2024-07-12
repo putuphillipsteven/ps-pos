@@ -5,7 +5,7 @@ const router = Router();
 const categoryRoute = require('./route/productCategoryRoute');
 router.use('/category', categoryRoute);
 
-const transactionRoute = require('./route/transactionRoute');
+const transactionRoute = require('./route/transaction.route');
 router.use('/transaction', transactionRoute);
 
 const authRoute = require('./route/authRoute');

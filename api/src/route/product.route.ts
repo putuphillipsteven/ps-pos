@@ -1,11 +1,10 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import { ProductController } from '../controller/product.controller';
 import { ProductInteractor } from '../interactor/product.interactor';
 import { ProductRepository } from '../repositories/product.repository';
 import { uploadProductFile } from '../middleware/multer';
 import { body } from 'express-validator';
 import { validator } from '../middleware/validator';
-import { getAllProductController } from '../controller/productController';
 
 const repository = new ProductRepository();
 const interactor = new ProductInteractor(repository);

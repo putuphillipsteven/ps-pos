@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client';
 import {
 	CreateProductProps,
 	DeleteProductProps,
-	DeleteProductReturnProps,
 	GetProductFilterProps,
 	GetProductReturnProps,
 	UpdateProductProps,

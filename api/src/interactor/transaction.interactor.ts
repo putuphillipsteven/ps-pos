@@ -2,6 +2,7 @@ import { Transaction } from '../entities/transaction';
 import {
 	CreateTransactionWithDetailsProps,
 	GetTransactionFilters,
+	GetTransactionReturnProps,
 	ITransactionInteractor,
 } from '../interfaces/transaction/i.transaction.interactor';
 import { ITransactionRepository } from '../interfaces/transaction/i.transaction.repository';
@@ -11,7 +12,7 @@ export class TransactionInteractor implements ITransactionInteractor {
 	constructor(repository: ITransactionRepository) {
 		this.repository = repository;
 	}
-	async get(args: GetTransactionFilters): Promise<Transaction[] | undefined> {
+	async get(args: GetTransactionFilters): Promise<GetTransactionReturnProps | undefined> {
 		try {
 			const res = await this.repository.getTransactions(args);
 			return res;
