@@ -21,9 +21,16 @@ export class TransactionInteractor implements ITransactionInteractor {
 			throw error;
 		}
 	}
-	create(args: CreateTransactionWithDetailsProps): Promise<Transaction | undefined> {
-		throw new Error('Method not implemented.');
+
+	async create(args: CreateTransactionWithDetailsProps): Promise<Transaction | undefined> {
+		try {
+			const res = await this.repository.createTransaction(args);
+			return res;
+		} catch (error) {
+			throw error;
+		}
 	}
+
 	update(): Promise<Transaction | undefined> {
 		throw new Error('Method not implemented.');
 	}

@@ -41,10 +41,11 @@ export class TransactionRepository implements ITransactionRepository {
 			defaultEndDate.setDate(today.getDate() + 1);
 
 			// Define a new filter for more readable
+			const where: any = {};
 			const newFilter = {
 				skip,
 				take,
-				where: {},
+				where,
 			};
 
 			// Make readable new include, nothing special
@@ -70,7 +71,7 @@ export class TransactionRepository implements ITransactionRepository {
 
 			// Filter for the total data that we want to return
 			const totalFilter = {
-				where: {},
+				where: {} as any,
 			};
 
 			/* 
@@ -85,13 +86,14 @@ export class TransactionRepository implements ITransactionRepository {
 			The condition if the args.start and endDate is given
 			*/
 			if (args.startDate) {
-				newFilter.where = { date: { gt: new Date(args.startDate) } };
-				totalFilter.where = { date: { gt: new Date(args.startDate) } };
+				newFilter.where.date = { ...newFilter.where.date, gt: new Date(args.startDate) };
+				totalFilter.where.date = { ...totalFilter.where.date, gt: new Date(args.startDate) };
 			}
 			if (args.endDate) {
-				newFilter.where = { date: { lt: new Date(args.endDate) } };
-				totalFilter.where = { date: { lt: new Date(args.endDate) } };
+				newFilter.where.date = { ...newFilter.where.date, lt: new Date(args.endDate) };
+				totalFilter.where.date = { ...totalFilter.where.date, lt: new Date(args.endDate) };
 			}
+			console.log('[NEW FILTER]', newFilter);
 			const total = await this.prisma.transaction.count({ ...totalFilter });
 			const data = await this.prisma.transaction.findMany({
 				...newFilter,
@@ -106,7 +108,38 @@ export class TransactionRepository implements ITransactionRepository {
 			throw error;
 		}
 	}
-	createTransaction(args: CreateTransactionWithDetailsProps): Promise<Transaction | undefined> {
-		throw new Error('Method not implemented.');
+	async createTransaction(
+		args: CreateTransactionWithDetailsProps,
+	): Promise<Transaction | undefined> {
+		try {
+			// Destructuring objects, separate the details, with the transaction data
+			const { details, ...transactionData } = args;
+			const createTransaction = await this.prisma.transaction.create({
+				data: {
+					customer_name: transactionData.customer_name,
+					payment_amount: transactionData.payment_amount,
+					payment_change: transactionData.payment_amount - transactionData.total_price,
+					payment_method_id: transactionData.payment_method_id,
+					total_price: transactionData.total_price,
+					total_price_ppn: transactionData.total_price + transactionData.total_price * 0.1,
+					total_qty: transactionData.total_qty,
+					user_id: transactionData.user_id,
+				},
+			});
+			const transaction_id = createTransaction?.id;
+			// Mapp the details data, but add transaction_id properties to the object
+			const detailsData = details.map((detail) => {
+				return {
+					...detail,
+					transaction_id,
+				};
+			});
+			await this.prisma.transaction_Detail.createMany({
+				data: detailsData,
+			});
+			return createTransaction;
+		} catch (error) {
+			throw error;
+		}
 	}
 }

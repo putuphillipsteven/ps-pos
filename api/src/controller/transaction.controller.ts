@@ -8,6 +8,14 @@ export class TransactionController {
 	constructor(interactor: ITransactionInteractor) {
 		this.interactor = interactor;
 	}
+	public async onCreateTransaction(req: Request, res: Response, next: NextFunction) {
+		try {
+			const result = await this.interactor.create(req.body);
+			sendResponse(res, 200, 'Create Transaction Success', result);
+		} catch (err) {
+			next(err);
+		}
+	}
 
 	async onGetTransactions(req: Request, res: Response, next: NextFunction) {
 		try {

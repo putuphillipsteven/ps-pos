@@ -7,7 +7,6 @@ import {
 	UpdateProductProps,
 } from '../interfaces/product/i.product';
 import { IProductInteractor } from '../interfaces/product/i.product.interactor';
-
 import { IProductRepository } from '../interfaces/product/i.product.repository';
 
 export class ProductInteractor implements IProductInteractor {
@@ -16,6 +15,7 @@ export class ProductInteractor implements IProductInteractor {
 	constructor(repository: IProductRepository) {
 		this.repository = repository;
 	}
+
 	async delete(args: DeleteProductProps): Promise<Product | undefined> {
 		try {
 			const res = await this.repository.deleteProduct(args);
@@ -24,6 +24,7 @@ export class ProductInteractor implements IProductInteractor {
 			throw error;
 		}
 	}
+
 	async get(args: GetProductFilterProps): Promise<GetProductReturnProps | undefined> {
 		try {
 			const products = await this.repository.getProduct(args);
