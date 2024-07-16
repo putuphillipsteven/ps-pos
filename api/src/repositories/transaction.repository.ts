@@ -1,11 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import {
-	GetTransactionFilters,
-	CreateTransactionWithDetailsProps,
-	GetTransactionReturnProps,
-} from '../interfaces/transaction/i.transaction.interactor';
+
 import { Transaction } from '../entities/transaction';
 import { ITransactionRepository } from '../interfaces/transaction/i.transaction.repository';
+import {
+	CreateTransactionWithDetailsProps,
+	GetTransactionFilters,
+	GetTransactionReturnProps,
+} from '../interfaces/transaction/i.transaction';
 
 export class TransactionRepository implements ITransactionRepository {
 	private prisma: PrismaClient;
@@ -80,7 +81,6 @@ export class TransactionRepository implements ITransactionRepository {
 					payment_method_id: { equals: Number(args.payment_method_id) },
 				};
 			}
-			console.log('[NEW FILTER]', newFilter.where);
 			/* 
 			The condition if the args.start and endDate is given
 			*/
@@ -92,8 +92,6 @@ export class TransactionRepository implements ITransactionRepository {
 				newFilter.where = { date: { lt: new Date(args.endDate) } };
 				totalFilter.where = { date: { lt: new Date(args.endDate) } };
 			}
-			console.log('[NEW FILTER]', !!args.startDate);
-			console.log('[NEW FILTER]', newFilter.where);
 			const total = await this.prisma.transaction.count({ ...totalFilter });
 			const data = await this.prisma.transaction.findMany({
 				...newFilter,

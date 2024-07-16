@@ -2,12 +2,12 @@ import { Product } from '../entities/product';
 import {
 	CreateProductProps,
 	DeleteProductProps,
-	DeleteProductReturnProps,
 	GetProductFilterProps,
 	GetProductReturnProps,
-	IProductInteractor,
 	UpdateProductProps,
-} from '../interfaces/product/i.product.interactor';
+} from '../interfaces/product/i.product';
+import { IProductInteractor } from '../interfaces/product/i.product.interactor';
+
 import { IProductRepository } from '../interfaces/product/i.product.repository';
 
 export class ProductInteractor implements IProductInteractor {

@@ -11,6 +11,11 @@ export interface CreateTransactionProps {
 	total_price_ppn: number;
 }
 
+export interface GetTransactionReturnProps {
+	total: string;
+	data: Transaction[];
+}
+
 export interface GetTransactionFilters {
 	startDate: string;
 	endDate: string;
@@ -20,5 +25,5 @@ export interface GetTransactionFilters {
 
 export interface ITranscationInteractor {
 	create(input: CreateTransactionProps): Promise<Transaction | undefined>;
-	get(input: GetTransactionFilters): Promise<Transaction[] | undefined>;
+	get(input: GetTransactionFilters): Promise<GetTransactionReturnProps | undefined>;
 }

@@ -3,7 +3,7 @@ import {
 	CreateTransactionWithDetailsProps,
 	GetTransactionFilters,
 	GetTransactionReturnProps,
-} from './i.transaction.interactor';
+} from './i.transaction';
 
 export interface ITransactionRepository {
 	getTransactions(args: GetTransactionFilters): Promise<GetTransactionReturnProps | undefined>;

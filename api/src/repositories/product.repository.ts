@@ -1,13 +1,14 @@
 import { PrismaClient } from '@prisma/client';
+
+import { IProductRepository } from '../interfaces/product/i.product.repository';
+import { Product } from '../entities/product';
 import {
 	CreateProductProps,
 	DeleteProductProps,
 	GetProductFilterProps,
 	GetProductReturnProps,
 	UpdateProductProps,
-} from '../interfaces/product/i.product.interactor';
-import { IProductRepository } from '../interfaces/product/i.product.repository';
-import { Product } from '../entities/product';
+} from '../interfaces/product/i.product';
 
 export class ProductRepository implements IProductRepository {
 	private prisma: PrismaClient;
@@ -15,6 +16,7 @@ export class ProductRepository implements IProductRepository {
 	constructor() {
 		this.prisma = new PrismaClient();
 	}
+	// Delete Product
 	async deleteProduct(args: DeleteProductProps): Promise<Product | undefined> {
 		try {
 			const checkProductExists = await this.prisma.product.findUnique({ where: { id: args.id } });
@@ -25,6 +27,8 @@ export class ProductRepository implements IProductRepository {
 			throw error;
 		}
 	}
+
+	// Get Product
 	async getProduct(args: GetProductFilterProps): Promise<GetProductReturnProps | undefined> {
 		try {
 			const skip = (Number(args.page) - 1) * Number(args.pageSize);
@@ -69,6 +73,7 @@ export class ProductRepository implements IProductRepository {
 						},
 					},
 				};
+
 				newFilter.where = {
 					stock: {
 						some: {
@@ -83,6 +88,7 @@ export class ProductRepository implements IProductRepository {
 						},
 					},
 				};
+
 				totalFilter.where = {
 					stock: {
 						some: {
@@ -122,6 +128,7 @@ export class ProductRepository implements IProductRepository {
 		}
 	}
 
+	// Update Product
 	async updateProduct(args: UpdateProductProps): Promise<Product | undefined> {
 		try {
 			const argsToUpdate: any = {};
@@ -145,6 +152,7 @@ export class ProductRepository implements IProductRepository {
 		}
 	}
 
+	// Create Product
 	async createProduct(args: CreateProductProps): Promise<Product | undefined> {
 		try {
 			const product = await this.prisma.product.create({ data: args });

@@ -1,6 +1,10 @@
-import { CreateTransactionProps, GetTransactionFilters } from './i.transaction.interactor';
+import {
+	CreateTransactionProps,
+	GetTransactionFilters,
+	GetTransactionReturnProps,
+} from './i.transaction.interactor';
 
 export interface ITransactionRepository {
 	createTransaction(input: CreateTransactionProps): any;
-	getTransaction(filter: GetTransactionFilters): any;
+	getTransaction(filter: GetTransactionFilters): Promise<GetTransactionReturnProps | undefined>;
 }

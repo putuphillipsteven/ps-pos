@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-	DeleteProductProps,
-	DeleteProductReturnProps,
-	GetProductFilterProps,
-	IProductInteractor,
-	UpdateProductProps,
-} from '../interfaces/product/i.product.interactor';
+
 import { sendResponse } from '../utils/utilts';
 import { ParsedQs } from 'qs';
+import { IProductInteractor } from '../interfaces/product/i.product.interactor';
+import {
+	DeleteProductProps,
+	GetProductFilterProps,
+	UpdateProductProps,
+} from '../interfaces/product/i.product';
 export class ProductController {
 	private interactor: IProductInteractor;
 

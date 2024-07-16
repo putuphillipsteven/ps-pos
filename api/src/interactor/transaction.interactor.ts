@@ -3,8 +3,9 @@ import {
 	CreateTransactionWithDetailsProps,
 	GetTransactionFilters,
 	GetTransactionReturnProps,
-	ITransactionInteractor,
-} from '../interfaces/transaction/i.transaction.interactor';
+} from '../interfaces/transaction/i.transaction';
+import { ITransactionInteractor } from '../interfaces/transaction/i.transaction.interactor';
+
 import { ITransactionRepository } from '../interfaces/transaction/i.transaction.repository';
 
 export class TransactionInteractor implements ITransactionInteractor {

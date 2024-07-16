@@ -17,7 +17,6 @@ export class TransactionInteractor implements ITranscationInteractor {
 		return transaction;
 	}
 	create(input: CreateTransactionProps): Promise<Transaction | undefined> {
-		console.log(input);
 		throw new Error('Method not implemented.');
 	}
 }

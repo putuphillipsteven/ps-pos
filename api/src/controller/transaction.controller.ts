@@ -1,11 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { IProductInteractor } from '../interfaces/product/i.product.interactor';
-import {
-	GetTransactionFilters,
-	ITransactionInteractor,
-} from '../interfaces/transaction/i.transaction.interactor';
+import { ITransactionInteractor } from '../interfaces/transaction/i.transaction.interactor';
 import { ParsedQs } from 'qs';
 import { sendResponse } from '../utils/utilts';
+import { GetTransactionFilters } from '../interfaces/transaction/i.transaction';
 export class TransactionController {
 	private interactor: ITransactionInteractor;
 	constructor(interactor: ITransactionInteractor) {

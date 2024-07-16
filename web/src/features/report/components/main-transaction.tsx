@@ -47,7 +47,6 @@ export default function MainTransaction() {
 		fetchTransactions();
 	}, []);
 
-	console.log('[TRANSACTION]', transactions);
 	const theme = useTheme();
 	return (
 		<Box w={'100%'} h={'100%'} py={'.5em'} display={'flex'} flexDir={'column'} rowGap={4}>
