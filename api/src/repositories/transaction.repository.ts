@@ -25,20 +25,26 @@ export class TransactionRepository implements ITransactionRepository {
 	): Promise<GetTransactionReturnProps | undefined> {
 		try {
 			// Define skip and take for pagination
-			const skip = (Number(args.page) - 1) * +args.pageSize;
-			const take = Number(args.pageSize);
+			const skip = (Number(args.page) - 1) * Number(args.pageSize);
+			const take = Number(args.pageSize) | 10;
 
 			// Make todays date for default date
 			const today = new Date();
+			const todayFormatted =
+				today.getFullYear() +
+				'-' +
+				('0' + (today.getMonth() + 1)).slice(-2) +
+				'-' +
+				('0' + today.getDate()).slice(-2);
 			/* 
 			Make default start date, if the date is null, so the default
 			start date is those, also the default endD date.
 			The default end date is + 1 day from default start date
 			(todays) date
 			*/
-			const defaultStartDate = new Date(today);
-			const defaultEndDate = new Date(today);
-			defaultEndDate.setDate(today.getDate() + 1);
+
+			const defaultStartDate = new Date(todayFormatted);
+			const defaultEndDate = new Date(todayFormatted);
 
 			// Define a new filter for more readable
 			const where: any = {};
@@ -78,22 +84,23 @@ export class TransactionRepository implements ITransactionRepository {
 			Condition if the payment_method_is is given
 			*/
 			if (args.payment_method_id) {
-				newFilter.where = {
-					payment_method_id: { equals: Number(args.payment_method_id) },
+				newFilter.where.payment_method_id = {
+					...newFilter.where.payment_method_id,
+					equals: Number(args.payment_method_id),
 				};
 			}
 			/* 
 			The condition if the args.start and endDate is given
 			*/
 			if (args.startDate) {
-				newFilter.where.date = { ...newFilter.where.date, gt: new Date(args.startDate) };
-				totalFilter.where.date = { ...totalFilter.where.date, gt: new Date(args.startDate) };
+				newFilter.where.date = { ...newFilter.where.date, gte: new Date(args.startDate) };
+				totalFilter.where.date = { ...totalFilter.where.date, gte: new Date(args.startDate) };
 			}
 			if (args.endDate) {
 				newFilter.where.date = { ...newFilter.where.date, lt: new Date(args.endDate) };
 				totalFilter.where.date = { ...totalFilter.where.date, lt: new Date(args.endDate) };
 			}
-			console.log('[NEW FILTER]', newFilter);
+			console.log('[today]', newFilter);
 			const total = await this.prisma.transaction.count({ ...totalFilter });
 			const data = await this.prisma.transaction.findMany({
 				...newFilter,
