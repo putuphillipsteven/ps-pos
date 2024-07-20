@@ -43,9 +43,6 @@ export class TransactionRepository implements ITransactionRepository {
 			(todays) date
 			*/
 
-			const defaultStartDate = new Date(todayFormatted);
-			const defaultEndDate = new Date(todayFormatted);
-
 			// Define a new filter for more readable
 			const where: any = {};
 			const newFilter = {
@@ -100,13 +97,12 @@ export class TransactionRepository implements ITransactionRepository {
 				newFilter.where.date = { ...newFilter.where.date, lt: new Date(args.endDate) };
 				totalFilter.where.date = { ...totalFilter.where.date, lt: new Date(args.endDate) };
 			}
-			console.log('[today]', newFilter);
+
 			const total = await this.prisma.transaction.count({ ...totalFilter });
 			const data = await this.prisma.transaction.findMany({
 				...newFilter,
 				...newInclude,
 			});
-
 			return {
 				total,
 				data,

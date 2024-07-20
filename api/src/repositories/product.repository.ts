@@ -37,87 +37,126 @@ export class ProductRepository implements IProductRepository {
 			const newFilter = {
 				skip,
 				take,
-				where: {},
-				orderBy: {},
+				where: {} as any,
+				orderBy: {} as any,
+			};
+
+			const totalFilter = {
+				where: {} as any,
 			};
 
 			const newInclude = {
 				status: true,
 				product_group: true,
 				product_category: true,
-				stock: {},
+				stock: {} as any,
 			};
 
 			if (args.product_name) {
-				newFilter.where = {
-					product_name: { contains: args?.product_name },
+				newFilter.where.product_name = {
+					...newFilter.where.product_name,
+					contains: args?.product_name,
+				};
+				totalFilter.where.product_name = {
+					...totalFilter.where.product_name,
+					contains: args?.product_name,
 				};
 			}
 
 			if (args.product_category_id) {
-				newFilter.where = {
-					product_category_id: args.product_category_id,
+				newFilter.where.product_category_id = {
+					...newFilter.where.product_category_id,
+					equals: Number(args.product_category_id),
+				};
+				totalFilter.where.product_category_id = {
+					...totalFilter.where.product_category_id,
+					equals: Number(args.product_category_id),
 				};
 			}
-
-			const totalFilter = {
-				where: {},
-			};
 
 			if (args?.stock) {
-				newInclude.stock = {
-					where: { branch_id: { equals: args?.branch_id } },
-					include: {
-						branch: {
-							select: { branch_name: true },
-						},
-					},
-				};
-
 				newFilter.where = {
+					...newFilter.where,
 					stock: {
 						some: {
-							AND: [
-								{
-									branch_id: { equals: args?.branch_id },
-								},
-								{
-									quantity: { gt: 0, lte: args?.stock },
-								},
-							],
+							quantity: { gt: 0, lte: args?.stock },
 						},
 					},
 				};
-
 				totalFilter.where = {
+					...totalFilter.where,
 					stock: {
 						some: {
-							AND: [
-								{
-									branch_id: { equals: args?.branch_id },
-								},
-								{
-									quantity: { gt: 0, lte: args?.stock },
-								},
-							],
+							quantity: { gt: 0, lte: args?.stock },
 						},
 					},
 				};
 			}
+
+			// if (args?.stock) {
+			// 	newInclude.stock = {
+			// 		where: { branch_id: { equals: args?.branch_id } },
+			// 		include: {
+			// 			branch: {
+			// 				select: { branch_name: true },
+			// 			},
+			// 		},
+			// 	};
+
+			// 	newFilter.where = {
+			// 		stock: {
+			// 			some: {
+			// 				AND: [
+			// 					{
+			// 						branch_id: { equals: args?.branch_id },
+			// 					},
+			// 					{
+			// 						quantity: { gt: 0, lte: args?.stock },
+			// 					},
+			// 				],
+			// 			},
+			// 		},
+			// 	};
+
+			// 	totalFilter.where = {
+			// 		stock: {
+			// 			some: {
+			// 				AND: [
+			// 					{
+			// 						branch_id: { equals: args?.branch_id },
+			// 					},
+			// 					{
+			// 						quantity: { gt: 0, lte: args?.stock },
+			// 					},
+			// 				],
+			// 			},
+			// 		},
+			// 	};
+			// }
 
 			if (args?.sort) {
 				newFilter.orderBy = {
+					...newFilter.orderBy,
 					product_name: args?.sort,
+				};
+			} else {
+				newFilter.orderBy = {
+					...newFilter.orderBy,
+					product_name: 'asc',
 				};
 			}
 
-			const total = await this.prisma.product.count(totalFilter);
+			const total = await this.prisma.product.count({ ...totalFilter });
 			const data = await this.prisma.product.findMany({
 				...newFilter,
 				include: {
 					...newInclude,
 				},
 			});
+
+			console.log('[DATA LENGTH]', data.length);
+			console.log('[NEW]', newFilter);
+			console.log('[TOTAL]', totalFilter);
 
 			return {
 				total,
