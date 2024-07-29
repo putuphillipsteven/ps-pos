@@ -12,6 +12,7 @@ export interface GetTransactionReturnProps {
 	total: number;
 	data: Transaction[];
 }
+
 export interface TransactionProps {
 	user_id: number;
 	total_price: number;
