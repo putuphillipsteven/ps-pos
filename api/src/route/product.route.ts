@@ -21,11 +21,11 @@ const createProductValidations = [
 ];
 
 const updateProductValidations = [
-	body('product_price').isInt({ min: 100 }).withMessage('Product price cant 100 rupiah'),
+	body('product_image').notEmpty().withMessage('Product image cant be empty').optional(),
+	body('product_price').isInt({ min: 100 }).withMessage('Product price cant 100 rupiah').optional(),
 ];
 
 router.get('/', controller.onGetProduct.bind(controller));
-// router.get('/', getAllProductController);
 router.post(
 	'/create',
 	uploadProductFile,

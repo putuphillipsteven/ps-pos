@@ -30,10 +30,19 @@ export class ProductController {
 
 	async onGetProduct(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { branch_id, page, pageSize, product_category_id, product_name, sort, stock } =
-				req.query as ParsedQs & GetProductFilterProps;
+			const {
+				branch_id,
+				page,
+				pageSize,
+				product_category_id,
+				product_name,
+				sort,
+				stock,
+				product_group_id,
+			} = req.query as ParsedQs & GetProductFilterProps;
 			const filters: GetProductFilterProps = {
 				branch_id: Number(branch_id),
+				product_group_id,
 				page,
 				pageSize,
 				product_category_id,

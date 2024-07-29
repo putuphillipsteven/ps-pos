@@ -14,7 +14,6 @@ export class TransactionRepository implements ITransactionRepository {
 		return res?.data?.data?.data;
 	}
 	createTransaction(input: CreateTransactionProps) {
-		console.log(input);
 		throw new Error('Method not implemented.');
 	}
 }

@@ -1,165 +1,141 @@
-import axios from "axios";
+import axios from 'axios';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-} from "chart.js";
-import {
-  useState,
-  useEffect,
-  SetStateAction,
-  Dispatch,
-} from "react";
-import { Line } from "react-chartjs-2";
+	Chart as ChartJS,
+	CategoryScale,
+	LinearScale,
+	PointElement,
+	LineElement,
+	Title,
+	Tooltip,
+	Filler,
+	Legend,
+} from 'chart.js';
+import { useState, useEffect, SetStateAction, Dispatch } from 'react';
+import { Line } from 'react-chartjs-2';
 
 ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend
+	CategoryScale,
+	LinearScale,
+	PointElement,
+	LineElement,
+	Title,
+	Tooltip,
+	Filler,
+	Legend,
 );
 
 export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top" as const,
-    },
-    title: {
-      display: true,
-      text: "Total Sales per Day",
-    },
-  },
-  scales: {
-    y: {
-      title: {
-        display: true,
-        text: "Rupiah",
-      },
-      min: 0,
-      ticks: {
-        stepSize: 50000,
-      },
-    },
-  },
+	responsive: true,
+	plugins: {
+		legend: {
+			position: 'top' as const,
+		},
+		title: {
+			display: true,
+			text: 'Total Sales per Day',
+		},
+	},
+	scales: {
+		y: {
+			title: {
+				display: true,
+				text: 'Rupiah',
+			},
+			min: 0,
+			ticks: {
+				stepSize: 50000,
+			},
+		},
+	},
 };
 
 interface ChartData {
-  labels: number[];
-  datasets: {
-    fill: boolean;
-    label: string;
-    data: number[];
-    borderColor: string;
-    backgroundColor: string;
-  }[];
+	labels: number[];
+	datasets: {
+		fill: boolean;
+		label: string;
+		data: number[];
+		borderColor: string;
+		backgroundColor: string;
+	}[];
 }
 
 interface DataPoint {
-  label: number;
-  price: number;
+	label: number;
+	price: number;
 }
 
 const initialChartData: ChartData = {
-  labels: [],
-  datasets: [
-    {
-      fill: true,
-      label: "Dataset 2",
-      data: [],
-      borderColor: "rgb(255, 121, 64)",
-      backgroundColor: "rgb(239, 163, 130, 0.0)",
-    },
-  ],
+	labels: [],
+	datasets: [
+		{
+			fill: true,
+			label: 'Dataset 2',
+			data: [],
+			borderColor: 'rgb(255, 121, 64)',
+			backgroundColor: 'rgb(239, 163, 130, 0.0)',
+		},
+	],
 };
 
 export const AreaChart = () => {
-  const [chartData, setChartData]: [
-    ChartData,
-    Dispatch<SetStateAction<ChartData>>
-  ] = useState(initialChartData);
+	const [chartData, setChartData]: [ChartData, Dispatch<SetStateAction<ChartData>>] =
+		useState(initialChartData);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:8000/transaction/filter/bydate"
-      );
-      const responseData = response?.data?.data;
-      console.log(responseData);
+	const fetchData = async () => {
+		try {
+			const response = await axios.get('http://localhost:8000/transaction/filter/bydate');
+			const responseData = response?.data?.data;
 
-      if (!responseData) {
-        console.error("Invalid response data");
-        return;
-      }
+			if (!responseData) {
+				console.error('Invalid response data');
+				return;
+			}
 
-      const dataPoints: DataPoint[] = responseData.map(
-        (data: any) => {
-          const timestamp = data.date;
-          // console.log("timestamp", timestamp);
+			const dataPoints: DataPoint[] = responseData.map((data: any) => {
+				const timestamp = data.date;
 
-          const dateObject = new Date(timestamp);
-          // console.log("date", dateObject);
+				const dateObject = new Date(timestamp);
 
-          const label = dateObject.getDate();
-          // console.log("getdate", label);
+				const label = dateObject.getDate();
 
-          return {
-            label,
-            price: data?.total,
-          };
-        }
-      );
-      // dataPoints.sort((a, b) => b.label - a.label);
+				return {
+					label,
+					price: data?.total,
+				};
+			});
+			// dataPoints.sort((a, b) => b.label - a.label);
 
-      const last3DataPoints = dataPoints.slice(-7);
+			const last3DataPoints = dataPoints.slice(-7);
 
-      const labels = last3DataPoints.map(
-        (dataPoint) => dataPoint.label
-      );
-      const prices = last3DataPoints.map(
-        (dataPoint) => dataPoint.price
-      );
+			const labels = last3DataPoints.map((dataPoint) => dataPoint.label);
+			const prices = last3DataPoints.map((dataPoint) => dataPoint.price);
 
-      const newData: ChartData = {
-        labels,
-        datasets: [
-          {
-            fill: true,
-            label: "Sales per Day",
-            data: prices,
-            borderColor: "#ED1C24",
-            backgroundColor: "#fafafa",
-          },
-        ],
-      };
-      setChartData(newData);
-    } catch (error) {
-      throw error;
-    }
-  };
+			const newData: ChartData = {
+				labels,
+				datasets: [
+					{
+						fill: true,
+						label: 'Sales per Day',
+						data: prices,
+						borderColor: '#ED1C24',
+						backgroundColor: '#fafafa',
+					},
+				],
+			};
+			setChartData(newData);
+		} catch (error) {
+			throw error;
+		}
+	};
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+	useEffect(() => {
+		fetchData();
+	}, []);
 
-  return (
-    <>
-      <Line
-        options={options}
-        data={chartData}
-        width="500px"
-        height="250px"
-      />
-    </>
-  );
+	return (
+		<>
+			<Line options={options} data={chartData} width='500px' height='250px' />
+		</>
+	);
 };

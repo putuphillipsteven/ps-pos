@@ -63,6 +63,24 @@ export class ProductRepository implements IProductRepository {
 				};
 			}
 
+			/* 
+			Product group contains just food/beverages.
+			*/
+
+			if (args.product_group_id) {
+				newFilter.where.product_group_id = {
+					...newFilter.where.product_group_id,
+					equals: Number(args.product_group_id),
+				};
+				totalFilter.where.product_category_id = {
+					...totalFilter.where.product_group_id,
+					equals: Number(args.product_group_id),
+				};
+			}
+
+			/* 
+			Product category contains just kitchen/grocery
+			*/
 			if (args.product_category_id) {
 				newFilter.where.product_category_id = {
 					...newFilter.where.product_category_id,
@@ -153,11 +171,6 @@ export class ProductRepository implements IProductRepository {
 					...newInclude,
 				},
 			});
-
-			console.log('[DATA LENGTH]', data.length);
-			console.log('[NEW]', newFilter);
-			console.log('[TOTAL]', totalFilter);
-
 			return {
 				total,
 				data,

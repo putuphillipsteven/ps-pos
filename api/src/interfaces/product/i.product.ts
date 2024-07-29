@@ -16,6 +16,7 @@ export interface UpdateProductProps extends CreateProductProps {
 
 export interface GetProductFilterProps {
 	product_name: string;
+	product_group_id: number;
 	product_category_id: number;
 	branch_id: number;
 	pageSize: number;
