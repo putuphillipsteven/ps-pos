@@ -1,53 +1,34 @@
-import { Box, Flex, HStack, Icon, Image, Text, useTheme } from '@chakra-ui/react';
-import { RiNotification3Fill } from 'react-icons/ri';
+import { Box, Flex, Icon, useTheme } from '@chakra-ui/react';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { ProfileModal } from './profile-modal';
 interface NavBarProps {
 	toggleSideNavDisplay: VoidFunction;
 }
 export default function NavBar({ toggleSideNavDisplay }: NavBarProps) {
 	const theme = useTheme();
+
 	return (
 		<Flex
 			w={'100%'}
-			h={'3em'}
-			p={'1em'}
-			alignItems={'center'}
+			h={'fit-content'}
+			p={'.5em'}
 			justifyContent={'space-between'}
 			border={`2px solid ${theme.colors.border}`}
+			rowGap={'.5em'}
+			flexDir={{ base: 'column' }}
 		>
-			<Flex alignItems={'center'} justifyContent={'center'} columnGap={4}>
-				<Icon
-					as={GiHamburgerMenu}
-					width={6}
-					height={6}
-					cursor={'pointer'}
-					onClick={toggleSideNavDisplay}
-				/>
-				<HStack spacing={'.5em'}>
-					<Text as={'b'}>12:00</Text>
-					<Text fontWeight={'medium'}>Friday, 16 November 2023</Text>
-				</HStack>
-			</Flex>
-			<HStack spacing={'.5em'}>
-				<Flex
-					justifyContent={'center'}
-					alignItems={'center'}
-					borderRadius={'50%'}
-					bgColor={'#FAFAFA'}
-					boxSize={'2em'}
-				>
-					<RiNotification3Fill />
-				</Flex>
-				<Box overflow={'hidden'}>
-					<Image
-						src={`${
-							import.meta.env.VITE_APP_API_IMAGE_URL
-						}/profile/product_2023_10_19_logo ratan.png`}
-						borderRadius={'50%'}
-						boxSize={'2em'}
+			<Flex w={'100%'} justifyContent={'space-between'}>
+				<Flex alignItems={'center'} justifyContent={'center'} columnGap={4}>
+					<Icon
+						as={GiHamburgerMenu}
+						width={6}
+						height={6}
+						cursor={'pointer'}
+						onClick={toggleSideNavDisplay}
 					/>
-				</Box>
-			</HStack>
+				</Flex>
+				<ProfileModal />
+			</Flex>
 		</Flex>
 	);
 }

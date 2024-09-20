@@ -54,12 +54,6 @@ export default function SideNav({ sideNavDisplay }: SideNavProps) {
 				/>
 				<SideNavLink
 					sideNavDisplay={sideNavDisplay}
-					text={'Inventory'}
-					to={'#'}
-					icon={<MdOutlineInventory2 />}
-				/>
-				<SideNavLink
-					sideNavDisplay={sideNavDisplay}
 					text={'Product'}
 					to={'#'}
 					icon={<TbBoxSeam />}
