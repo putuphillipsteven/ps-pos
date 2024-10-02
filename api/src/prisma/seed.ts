@@ -63,9 +63,31 @@ async function main() {
 			first_name: 'John',
 			last_name: 'Doe',
 			email: 'johndoe@gmail.com',
+			role_id: 1,
 			gender_id: 1,
 		},
 	});
+	const graduation = await prisma.product_Category.upsert({
+		where: {
+			id: 1,
+		},
+		update: {},
+		create: {
+			id: 1,
+			product_category_name: 'Graduation',
+		},
+	});
+	// const bronzeLaminating = await prisma.product.upsert({
+	// 	where: {
+	// 		id: 1,
+	// 	},
+	// 	update: {},
+	// 	create: {
+	// 		id: 1,
+	// 		product_name: 'Bronze Laminating',
+	// 	},
+	// });
+	console.log({ customer, employee, manager, graduation });
 }
 
 main()
