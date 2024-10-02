@@ -11,19 +11,24 @@ datasource db {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
-  full_name   String?
-  address     String?
-  avatar      String?
-  email       String        @unique
-  password    String
-  role        Role?         @relation(fields: [role_id], references: [id])
-  role_id     Int?
-  gender      Gender        @relation(fields: [gender_id], references: [id])
-  gender_id   Int
-  transaction Transaction[]
-  branch      Branch?       @relation(fields: [branch_id], references: [id])
-  branch_id   Int?
+  id                    Int           @id @default(autoincrement())
+  first_name            String        @default("First Name")
+  last_name             String?
+  phone_number          String        @default("081234567890")
+  second_phone_number   String?
+  address               String?
+  avatar_url            String?
+  email                 String        @unique
+  password              String?
+  role                  Role?         @relation(fields: [role_id], references: [id])
+  role_id               Int?
+  gender                Gender        @relation(fields: [gender_id], references: [id])
+  gender_id             Int
+  created_at            DateTime      @default(now())
+  updated_at            DateTime?
+  deleted_at            DateTime?
+  cashier_transactions  Transaction[] @relation("cashier_user")
+  customer_transactions Transaction[] @relation("customer_user")
 }
 
 model Role {
@@ -40,9 +45,10 @@ model Gender {
 
 model Transaction {
   id                 Int                  @id @default(autoincrement())
-  user               User                 @relation(fields: [user_id], references: [id])
-  user_id            Int
-  date               DateTime             @default(now())
+  cashier            User                 @relation("cashier_user", fields: [cashier_id], references: [id])
+  cashier_id         Int                  @default(1)
+  user               User                 @relation("customer_user", fields: [user_id], references: [id])
+  user_id            Int                  @default(1)
   total_price        Int
   total_qty          Int
   payment_method     Payment_Method       @relation(fields: [payment_method_id], references: [id])
@@ -52,6 +58,9 @@ model Transaction {
   payment_change     Int?
   total_price_ppn    Int?
   transaction_detail Transaction_Detail[]
+  created_at         DateTime             @default(now())
+  updated_at         DateTime?
+  deleted_at         DateTime?
 }
 
 model Payment_Method {
@@ -110,7 +119,6 @@ model Branch {
   id          Int     @id @default(autoincrement())
   branch_name String
   stock       Stock[]
-  user        User[]
 }
 
 model Stock {
