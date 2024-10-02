@@ -77,17 +77,19 @@ async function main() {
 			product_category_name: 'Graduation',
 		},
 	});
-	// const bronzeLaminating = await prisma.product.upsert({
-	// 	where: {
-	// 		id: 1,
-	// 	},
-	// 	update: {},
-	// 	create: {
-	// 		id: 1,
-	// 		product_name: 'Bronze Laminating',
-	// 	},
-	// });
-	console.log({ customer, employee, manager, graduation });
+	const bronzeLaminating = await prisma.product.upsert({
+		where: {
+			id: 1,
+		},
+		update: {},
+		create: {
+			id: 1,
+			product_name: 'Bronze Laminating',
+			product_category_id: 1,
+			product_price: 450000,
+		},
+	});
+	console.log('--[KELASSS]--');
 }
 
 main()
