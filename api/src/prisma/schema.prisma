@@ -11,24 +11,24 @@ datasource db {
 }
 
 model User {
-  id                    Int           @id @default(autoincrement())
-  first_name            String        @default("First Name")
+  id                    Int            @id @default(autoincrement())
+  first_name            String         @default("First Name")
   last_name             String?
-  phone_number          String        @default("081234567890")
+  phone_number          String         @default("081234567890")
   second_phone_number   String?
   avatar_url            String?
-  email                 String        @unique
+  email                 String         @unique
   password              String?
-  role                  Role?         @relation(fields: [role_id], references: [id])
+  role                  Role?          @relation(fields: [role_id], references: [id])
   role_id               Int?
-  gender                Gender        @relation(fields: [gender_id], references: [id])
+  gender                Gender         @relation(fields: [gender_id], references: [id])
   gender_id             Int
-  created_at            DateTime      @default(now())
+  created_at            DateTime       @default(now())
   updated_at            DateTime?
   deleted_at            DateTime?
-  cashier_transactions  Transaction[] @relation("cashier_user")
-  customer_transactions Transaction[] @relation("customer_user")
-  User_Adress           User_Adress[]
+  cashier_transactions  Transaction[]  @relation("cashier_user")
+  customer_transactions Transaction[]  @relation("customer_user")
+  User_Address          User_Address[]
 }
 
 model Role {
@@ -135,7 +135,7 @@ model Avatar {
   image String
 }
 
-model User_Adress {
+model User_Address {
   id      Int   @id @default(autoincrement())
   user    User? @relation(fields: [user_id], references: [id])
   user_id Int
