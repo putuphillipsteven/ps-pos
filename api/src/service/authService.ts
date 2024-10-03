@@ -12,7 +12,7 @@ export const loginService = async ({ email, password }: UserLogin) => {
 			where: { email },
 		});
 		if (!isUserExist) throw new Error('Sorry, email doesnt exist');
-		const isValid = await bcrypt.compare(password, isUserExist.password);
+		const isValid = await bcrypt.compare(password, isUserExist.password || '');
 
 		if (!isValid) throw new Error('Wrong password');
 		let payload = {

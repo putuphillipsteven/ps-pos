@@ -46,10 +46,9 @@ export class ProductRepository implements IProductRepository {
 			};
 
 			const newInclude = {
-				status: true,
-				product_group: true,
+				// status: true,
 				product_category: true,
-				stock: {} as any,
+				// stock: {} as any,
 			};
 
 			if (args.product_name) {
@@ -67,14 +66,10 @@ export class ProductRepository implements IProductRepository {
 			Product group contains just food/beverages.
 			*/
 
-			if (args.product_group_id) {
-				newFilter.where.product_group_id = {
-					...newFilter.where.product_group_id,
-					equals: Number(args.product_group_id),
-				};
+			if (args.product_category_id) {
 				totalFilter.where.product_category_id = {
-					...totalFilter.where.product_group_id,
-					equals: Number(args.product_group_id),
+					...totalFilter.where.product_category_id,
+					equals: Number(args.product_category_id),
 				};
 			}
 
@@ -92,24 +87,24 @@ export class ProductRepository implements IProductRepository {
 				};
 			}
 
-			if (args?.stock) {
-				newFilter.where = {
-					...newFilter.where,
-					stock: {
-						some: {
-							quantity: { gt: 0, lte: args?.stock },
-						},
-					},
-				};
-				totalFilter.where = {
-					...totalFilter.where,
-					stock: {
-						some: {
-							quantity: { gt: 0, lte: args?.stock },
-						},
-					},
-				};
-			}
+			// if (args?.stock) {
+			// 	newFilter.where = {
+			// 		...newFilter.where,
+			// 		stock: {
+			// 			some: {
+			// 				quantity: { gt: 0, lte: args?.stock },
+			// 			},
+			// 		},
+			// 	};
+			// 	totalFilter.where = {
+			// 		...totalFilter.where,
+			// 		stock: {
+			// 			some: {
+			// 				quantity: { gt: 0, lte: args?.stock },
+			// 			},
+			// 		},
+			// 	};
+			// }
 
 			// if (args?.stock) {
 			// 	newInclude.stock = {
@@ -189,10 +184,10 @@ export class ProductRepository implements IProductRepository {
 			if (args.product_price) argsToUpdate.product_price = Number(args.product_price);
 			if (args.product_category_id)
 				argsToUpdate.product_category_id = Number(args.product_category_id);
-			if (args.product_image) argsToUpdate.product_image = args.product_image;
+			// if (args.product_image) argsToUpdate.product_image = args.product_image;
 			if (args.product_description) argsToUpdate.product_description = args.product_description;
-			if (args.product_group_id) argsToUpdate.product_group_id = Number(args.product_group_id);
-			if (args.product_status_id) argsToUpdate.product_status_id = Number(args.product_status_id);
+			// if (args.product_group_id) argsToUpdate.product_group_id = Number(args.product_group_id);
+			// if (args.product_status_id) argsToUpdate.product_status_id = Number(args.product_status_id);
 
 			const res = await this.prisma.product.update({
 				where: { id: args.id },

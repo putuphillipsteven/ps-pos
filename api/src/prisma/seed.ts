@@ -62,6 +62,7 @@ async function main() {
 			id: 1,
 			first_name: 'John',
 			last_name: 'Doe',
+			password: 'baikB@1K',
 			email: 'johndoe@gmail.com',
 			role_id: 1,
 			gender_id: 1,
@@ -89,7 +90,42 @@ async function main() {
 			product_price: 450000,
 		},
 	});
-	console.log('--[KELASSS]--');
+	const silverLaminating = await prisma.product.upsert({
+		where: {
+			id: 2,
+		},
+		update: {},
+		create: {
+			id: 2,
+			product_name: 'Silver Laminating',
+			product_category_id: 1,
+			product_price: 650000,
+		},
+	});
+	const goldLaminating = await prisma.product.upsert({
+		where: {
+			id: 3,
+		},
+		update: {},
+		create: {
+			id: 3,
+			product_name: 'Gold Laminating',
+			product_category_id: 1,
+			product_price: 800000,
+		},
+	});
+	const platinumLaminating = await prisma.product.upsert({
+		where: {
+			id: 4,
+		},
+		update: {},
+		create: {
+			id: 4,
+			product_name: 'Platinum Laminating',
+			product_category_id: 1,
+			product_price: 1300000,
+		},
+	});
 }
 
 main()

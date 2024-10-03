@@ -41,8 +41,8 @@ export const getProductCategoryQuery = async () => {
 
 export const getProductGroupQuery = async () => {
 	try {
-		const res = await prisma.product_Group.findMany();
-		return res;
+		// const res = await prisma.product_Group.findMany();
+		// return res;
 	} catch (err) {
 		throw err;
 	}

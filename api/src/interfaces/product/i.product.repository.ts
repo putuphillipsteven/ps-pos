@@ -5,7 +5,7 @@ import {
 	GetProductFilterProps,
 	GetProductReturnProps,
 	UpdateProductProps,
-} from './i.product.interactor';
+} from './i.product';
 
 export interface IProductRepository {
 	createProduct(args: CreateProductProps): Promise<Product | undefined>;

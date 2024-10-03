@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-
 import { sendResponse } from '../utils/utilts';
 import { ParsedQs } from 'qs';
 import { IProductInteractor } from '../interfaces/product/i.product.interactor';
@@ -30,19 +29,9 @@ export class ProductController {
 
 	async onGetProduct(req: Request, res: Response, next: NextFunction) {
 		try {
-			const {
-				branch_id,
-				page,
-				pageSize,
-				product_category_id,
-				product_name,
-				sort,
-				stock,
-				product_group_id,
-			} = req.query as ParsedQs & GetProductFilterProps;
+			const { page, pageSize, product_category_id, product_name, sort, stock } =
+				req.query as ParsedQs & GetProductFilterProps;
 			const filters: GetProductFilterProps = {
-				branch_id: Number(branch_id),
-				product_group_id,
 				page,
 				pageSize,
 				product_category_id,
@@ -60,21 +49,12 @@ export class ProductController {
 	async onUpdateProduct(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { id } = req.params;
-			const {
-				product_category_id,
-				product_group_id,
-				product_price,
-				product_status_id,
-				product_image,
-			} = req.body as UpdateProductProps;
+			const { product_category_id, product_price } = req.body as UpdateProductProps;
 
 			const updateData: UpdateProductProps = {
 				id: Number(id),
 				product_category_id: Number(product_category_id),
-				product_group_id: Number(product_group_id),
 				product_price: Number(product_price),
-				product_status_id: Number(product_status_id),
-				product_image: req?.file?.filename || product_image,
 				...req.body,
 			};
 
