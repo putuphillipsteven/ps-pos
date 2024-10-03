@@ -74,7 +74,6 @@ export class ProductController {
 				product_price: Number(product_price),
 				product_category_id: Number(product_category_id),
 			});
-
 			return sendResponse(res, 200, 'Create Product Success', data);
 		} catch (error) {
 			next(error);
