@@ -97,11 +97,6 @@ model Product {
   transaction_detail  Transaction_Detail[]
 }
 
-model Product_Group {
-  id                 Int    @id @default(autoincrement())
-  product_group_name String
-}
-
 model Product_Category {
   id                    Int                @id @default(autoincrement())
   product_category_name String
@@ -128,11 +123,6 @@ model Stock {
 model Status {
   id          Int     @id @default(autoincrement())
   status_name String?
-}
-
-model Avatar {
-  id    Int    @id @default(autoincrement())
-  image String
 }
 
 model User_Address {
