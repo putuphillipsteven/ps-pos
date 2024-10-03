@@ -14,6 +14,7 @@ export class UserController {
 		try {
 			const salt = await bcrypt.genSalt(10);
 			const hashPassword = await bcrypt.hash(req.body.password, salt);
+			console.log('hashPassword', hashPassword);
 			const result = await this.userService.createUser({ ...req.body, password: hashPassword });
 			sendResponse(res, 200, 'Create User Success', result);
 		} catch (err) {

@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 
 export interface User {
-	full_name: string;
+	first_name: string;
+	last_name: string;
 	address?: string | null;
 	email: string;
 	password: string;

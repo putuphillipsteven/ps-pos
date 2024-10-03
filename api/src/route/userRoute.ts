@@ -7,7 +7,7 @@ const router = express.Router();
 const userController = new UserController();
 
 const createUserValidations = [
-	body('full_name').notEmpty().withMessage('Email cant be empty'),
+	body('first_name').notEmpty().withMessage('First name cant be empty'),
 	body('email').notEmpty().withMessage('Email cant be empty'),
 	body('email').isEmail().withMessage('Invalid email format'),
 	body('password')
