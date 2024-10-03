@@ -3,16 +3,17 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-	const customer = await prisma.role.upsert({
+	const manager = await prisma.role.upsert({
 		where: {
 			id: 1,
 		},
 		update: {},
 		create: {
 			id: 1,
-			name: 'Customer',
+			name: 'Manager',
 		},
 	});
+
 	const employee = await prisma.role.upsert({
 		where: {
 			id: 2,
@@ -23,16 +24,18 @@ async function main() {
 			name: 'Employee',
 		},
 	});
-	const manager = await prisma.role.upsert({
+
+	const customer = await prisma.role.upsert({
 		where: {
 			id: 3,
 		},
 		update: {},
 		create: {
 			id: 3,
-			name: 'Manager',
+			name: 'Customer',
 		},
 	});
+
 	const male = await prisma.gender.upsert({
 		where: {
 			id: 1,
@@ -43,6 +46,7 @@ async function main() {
 			gender_name: 'Male',
 		},
 	});
+
 	const female = await prisma.gender.upsert({
 		where: {
 			id: 2,
@@ -53,21 +57,52 @@ async function main() {
 			gender_name: 'Female',
 		},
 	});
-	const johnDoe = await prisma.user.upsert({
+	const defaultManager = await prisma.user.upsert({
 		where: {
 			id: 1,
 		},
 		update: {},
 		create: {
 			id: 1,
-			first_name: 'John',
-			last_name: 'Doe',
-			email: 'johndoe@gmail.com',
+			first_name: 'Default',
+			last_name: 'Manager',
+			email: 'defaultmanager@gmail.com',
 			password: '$2b$10$E6L835/pj8LlCVPwI6deye0u4D9iWvZ8bVJayS6evgH7YB8R7bhTO',
 			role_id: 1,
 			gender_id: 1,
 		},
 	});
+	const defaultEmployee = await prisma.user.upsert({
+		where: {
+			id: 2,
+		},
+		update: {},
+		create: {
+			id: 2,
+			first_name: 'Default',
+			last_name: 'Employee',
+			email: 'defaultemployee@gmail.com',
+			password: '$2b$10$E6L835/pj8LlCVPwI6deye0u4D9iWvZ8bVJayS6evgH7YB8R7bhTO',
+			role_id: 2,
+			gender_id: 1,
+		},
+	});
+	const defaultCustomer = await prisma.user.upsert({
+		where: {
+			id: 3,
+		},
+		update: {},
+		create: {
+			id: 3,
+			first_name: 'Default',
+			last_name: 'Customer',
+			email: 'defaultcustomer@gmail.com',
+			password: '$2b$10$E6L835/pj8LlCVPwI6deye0u4D9iWvZ8bVJayS6evgH7YB8R7bhTO',
+			role_id: 1,
+			gender_id: 1,
+		},
+	});
+
 	const graduation = await prisma.product_Category.upsert({
 		where: {
 			id: 1,

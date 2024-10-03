@@ -202,6 +202,7 @@ export class ProductRepository implements IProductRepository {
 	// Create Product
 	async createProduct(args: CreateProductProps): Promise<Product | undefined> {
 		try {
+			console.log('args: ', args);
 			const product = await this.prisma.product.create({ data: args });
 			return product;
 		} catch (error) {

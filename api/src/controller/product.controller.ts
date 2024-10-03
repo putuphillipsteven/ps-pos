@@ -67,15 +67,12 @@ export class ProductController {
 
 	async onCreateProduct(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { product_price, product_category_id, product_group_id, product_status_id } = req.body;
+			const { product_price, product_category_id } = req.body;
 
 			const data = await this.interactor.create({
 				...req.body,
 				product_price: Number(product_price),
 				product_category_id: Number(product_category_id),
-				product_group_id: Number(product_group_id),
-				product_status_id: Number(product_status_id),
-				product_image: req?.file?.filename,
 			});
 
 			return sendResponse(res, 200, 'Create Product Success', data);
