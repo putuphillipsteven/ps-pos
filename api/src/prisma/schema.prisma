@@ -16,7 +16,6 @@ model User {
   last_name             String?
   phone_number          String        @default("081234567890")
   second_phone_number   String?
-  address               String?
   avatar_url            String?
   email                 String        @unique
   password              String?
@@ -29,6 +28,7 @@ model User {
   deleted_at            DateTime?
   cashier_transactions  Transaction[] @relation("cashier_user")
   customer_transactions Transaction[] @relation("customer_user")
+  User_Adress           User_Adress[]
 }
 
 model Role {
@@ -133,4 +133,10 @@ model Status {
 model Avatar {
   id    Int    @id @default(autoincrement())
   image String
+}
+
+model User_Adress {
+  id      Int   @id @default(autoincrement())
+  user    User? @relation(fields: [user_id], references: [id])
+  user_id Int
 }
