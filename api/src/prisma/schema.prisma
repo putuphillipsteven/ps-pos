@@ -95,6 +95,14 @@ model Product {
   product_price       Int
   product_description String?
   transaction_detail  Transaction_Detail[]
+  Product_Image       Product_Image[]
+}
+
+model Product_Image {
+  id         Int     @id @default(autoincrement())
+  image_url  String
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id Int
 }
 
 model Product_Category {

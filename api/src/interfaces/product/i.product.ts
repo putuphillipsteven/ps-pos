@@ -1,6 +1,6 @@
 import { Product } from '../../entities/product';
 
-export type CreateProductProps = Omit<Product, 'id' | 'transaction_details'>;
+export interface CreateProductProps extends Product {}
 
 export interface UpdateProductProps extends CreateProductProps {
 	id: number;
