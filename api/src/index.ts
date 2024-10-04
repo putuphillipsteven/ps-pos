@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import bodyParser = require('body-parser');
-import { errorHandler } from './middleware/errorHandler';
+import { errorHandler } from './middleware/error-handler';
 import router from './router';
 const cors = require('cors');
 

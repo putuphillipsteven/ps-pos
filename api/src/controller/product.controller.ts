@@ -14,7 +14,7 @@ export class ProductController {
 		this.interactor = interactor;
 	}
 
-	async onDeleteProdut(req: Request, res: Response, next: NextFunction) {
+	async onDeleteProduct(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { id } = req.params;
 			const args: DeleteProductProps = {

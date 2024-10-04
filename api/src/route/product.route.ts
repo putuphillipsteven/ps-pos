@@ -2,10 +2,9 @@ import express from 'express';
 import { ProductController } from '../controller/product.controller';
 import { ProductInteractor } from '../interactor/product.interactor';
 import { ProductRepository } from '../repositories/product.repository';
-import { uploadProductFile } from '../middleware/multer';
 import { body } from 'express-validator';
 import { validator } from '../middleware/validator';
-import { checkRoleEmployee, verifyToken } from '../middleware/auth-middleware';
+import { checkRoleEmployee, verifyToken } from '../middleware/auth.middleware';
 
 const repository = new ProductRepository();
 const interactor = new ProductInteractor(repository);
@@ -31,16 +30,14 @@ router.post(
 	'/create',
 	verifyToken,
 	checkRoleEmployee,
-	uploadProductFile,
 	validator(createProductValidations),
 	controller.onCreateProduct.bind(controller),
 );
 router.patch(
 	'/update/:id',
-	uploadProductFile,
 	validator(updateProductValidations),
 	controller.onUpdateProduct.bind(controller),
 );
-router.delete('/delete/:id', controller.onDeleteProdut.bind(controller));
+router.delete('/delete/:id', controller.onDeleteProduct.bind(controller));
 
 export = router;

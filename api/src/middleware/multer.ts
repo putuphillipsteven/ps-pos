@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import multer from 'multer';
 
 let date = new Date();
-const productStorage = multer.diskStorage({
+const productImageStorage = multer.diskStorage({
 	destination: (
 		req: Request,
 		file: Express.Multer.File,
@@ -60,11 +60,11 @@ const limitsProfile = {
 	fileSize: 1024 * 1024,
 };
 
-export const uploadProductFile = multer({
-	storage: productStorage,
+export const uploadProductImageFile = multer({
+	storage: productImageStorage,
 	fileFilter,
 	limits,
-}).single('product_image');
+}).single('image_url');
 
 export const uploadProfileFile = multer({
 	storage: profileStorage,

@@ -20,6 +20,9 @@ router.use('/cart', cartRoute);
 const productRoute = require('./route/product.route');
 router.use('/products', productRoute);
 
+const productImageRoute = require('./route/product-image.route');
+router.use('/product-images', productImageRoute);
+
 const branchRoute = require('./route/branchRoute');
 router.use('/branch', branchRoute);
 
