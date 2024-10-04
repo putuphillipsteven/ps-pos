@@ -49,12 +49,9 @@ export class ProductController {
 	async onUpdateProduct(req: Request, res: Response, next: NextFunction) {
 		try {
 			const { id } = req.params;
-			const { product_category_id, product_price } = req.body as UpdateProductProps;
 
 			const updateData: UpdateProductProps = {
 				id: Number(id),
-				product_category_id: Number(product_category_id),
-				product_price: Number(product_price),
 				...req.body,
 			};
 
@@ -67,12 +64,8 @@ export class ProductController {
 
 	async onCreateProduct(req: Request, res: Response, next: NextFunction) {
 		try {
-			const { product_price, product_category_id } = req.body;
-
 			const data = await this.interactor.create({
 				...req.body,
-				product_price: Number(product_price),
-				product_category_id: Number(product_category_id),
 			});
 			return sendResponse(res, 200, 'Create Product Success', data);
 		} catch (error) {

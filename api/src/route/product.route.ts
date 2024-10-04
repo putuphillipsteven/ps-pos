@@ -25,7 +25,7 @@ const updateProductValidations = [
 	body('product_price').isInt({ min: 100 }).withMessage('Product price cant 100 rupiah').optional(),
 ];
 
-router.get('/', verifyToken, controller.onGetProduct.bind(controller));
+router.get('/', controller.onGetProduct.bind(controller));
 router.post(
 	'/create',
 	verifyToken,
