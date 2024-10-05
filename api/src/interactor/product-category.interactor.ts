@@ -24,7 +24,12 @@ export class ProductCategoryInteractor implements IProductCategoryInteractor {
 		}
 	}
 	async create(args: CreateProductCategoryProps): Promise<Product_Category | undefined> {
-		throw new Error('Method not implemented.');
+		try {
+			const res = await this.repository.createProductCategory(args);
+			return res;
+		} catch (error) {
+			throw error;
+		}
 	}
 	async update(args: UpdateProductCategoryProps): Promise<Product_Category | undefined> {
 		throw new Error('Method not implemented.');

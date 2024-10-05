@@ -2,8 +2,8 @@ import { Router } from 'express';
 
 const router = Router();
 
-const categoryRoute = require('./route/productCategoryRoute');
-router.use('/category', categoryRoute);
+const productCategoryRoute = require('./route/product-category.route');
+router.use('/product-categories', productCategoryRoute);
 
 const transactionRoute = require('./route/transaction.route');
 router.use('/transaction', transactionRoute);

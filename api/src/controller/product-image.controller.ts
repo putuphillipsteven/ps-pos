@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { IProductImageController } from '../interfaces/product-image/i.product-image.controller';
 import { IProductImageInteractor } from '../interfaces/product-image/i.product-image.interactor';
-import { CreateProductImageProps } from '../interfaces/product-image/i.product-image';
 import { sendResponse } from '../utils/utilts';
 
 export class ProductImageController implements IProductImageController {
