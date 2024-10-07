@@ -5,7 +5,7 @@ import SideNav from './features/dashboard/components/side-nav';
 import NavBar from './features/dashboard/components/nav-bar';
 import { useState } from 'react';
 
-export default function App() {
+export default function Dashboard() {
 	const [sideNavDisplay, setSideNavDisplay] = useState(true);
 	const toggleSideNav = () => {
 		setSideNavDisplay(!sideNavDisplay);

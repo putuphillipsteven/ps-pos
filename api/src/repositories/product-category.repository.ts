@@ -31,28 +31,36 @@ export class ProductCategoryRepository implements IProductCategoryRepository {
 					parent: true,
 				},
 			});
-			console.log('results: ', results);
-			return {
-				data: results,
+
+			const buildNestedCategories = (categories: ProductCategory[]): ProductCategory[] => {
+				const categoryMap: { [key: number]: ProductCategory } = {};
+
+				// Map each category by id
+				categories.forEach((category) => {
+					categoryMap[category.id] = { ...category, subcategories: [] };
+				});
+
+				// Build the nested structure
+				const nestedCategories: ProductCategory[] = [];
+
+				categories.forEach((category) => {
+					if (category.parent_id === null) {
+						nestedCategories.push(categoryMap[category.id]);
+					} else {
+						const parent = categoryMap[category.parent_id];
+						if (parent) {
+							parent.subcategories!.push(categoryMap[category.id]);
+						}
+					}
+				});
+
+				return nestedCategories;
 			};
 
-			const groupedCategories = results.reduce((result: any, item) => {
-				const parentName = item?.parent?.name;
-				const parentId = item?.parent?.parent_id;
+			const result = buildNestedCategories(results);
 
-				if (parentName && !result[parentName]) {
-					result[parentName] = { name: parentName, id: parentId, category: [] };
-				}
-
-				if (parentName) {
-					result[parentName].category.push({ id: item.id, name: item.name });
-				}
-				return result;
-			}, {});
-
-			// Return data correctly
 			return {
-				data: Object.values(groupedCategories), // Convert object to array of grouped categories
+				data: result,
 			};
 		} catch (error) {
 			throw error;

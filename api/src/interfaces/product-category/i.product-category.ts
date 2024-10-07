@@ -1,6 +1,7 @@
 import { Product_Category } from '@prisma/client';
+import { ProductCategory } from '../../entities/product-category';
 
-export interface CreateProductCategoryProps extends Product_Category {}
+export interface CreateProductCategoryProps extends ProductCategory {}
 
 export interface DeleteProductCategoryProps {
 	id: number;
@@ -12,5 +13,5 @@ export interface UpdateProductCategoryProps {
 }
 
 export interface GetProductCategoryReturnProps {
-	data: Product_Category[];
+	data: any[];
 }

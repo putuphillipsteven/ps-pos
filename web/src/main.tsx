@@ -1,5 +1,4 @@
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
 import { ChakraProvider, Text } from '@chakra-ui/react';
 import {
 	Route,
@@ -8,16 +7,19 @@ import {
 	createRoutesFromElements,
 } from 'react-router-dom';
 import theme from './theme/theme.ts';
-import MainDashboard from './features/dashboard/main-dashboard.tsx';
 import MainReport from './features/report/main-report.tsx';
 import MainTransaction from './features/report/components/main-transaction.tsx';
+import LandingPage from './ui/(landing-page)/landing-page.tsx';
+import Dashboard from './dashboard.tsx';
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route path='/' element={<App />}>
-			<Route path='dashboard' element={<MainDashboard />} />
-			<Route path='dashboard/report' element={<MainReport />}>
-				<Route path='transaction' element={<MainTransaction />} />
+		<Route>
+			<Route path='/' element={<LandingPage />} />
+			<Route path='/dashboard' element={<Dashboard />}>
+				<Route path='/dashboard/report' element={<MainReport />}>
+					<Route path='transaction' element={<MainTransaction />} />
+				</Route>
 			</Route>
 		</Route>,
 	),

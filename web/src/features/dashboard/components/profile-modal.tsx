@@ -1,8 +1,5 @@
 import {
-	Box,
 	Flex,
-	HStack,
-	IconButton,
 	Image,
 	Menu,
 	MenuButton,
@@ -12,8 +9,6 @@ import {
 	useTheme,
 	VStack,
 } from '@chakra-ui/react';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { IoAddCircleOutline } from 'react-icons/io5';
 
 export const ProfileModal = () => {
 	const theme = useTheme();
@@ -21,13 +16,13 @@ export const ProfileModal = () => {
 		<Menu autoSelect={false}>
 			<MenuButton>
 				<Flex
-					border={`2px solid ${theme.colors.border}`}
+					border={`2px solid ${theme.colors.primary}`}
 					w={'2em'}
 					h={'2em'}
 					borderRadius={'50%'}
 					overflow={'hidden'}
 				>
-					<Image objectFit={'contain'} maxW={'100%'} height={'auto'} src='ck-logo.png' />
+					<Image objectFit={'contain'} maxW={'100%'} height={'auto'} src='/ck-logo.png' />
 				</Flex>
 			</MenuButton>
 			<MenuList marginTop={'1em'} display={'flex'} flexDir={'column'}>

@@ -57,6 +57,7 @@ async function main() {
 			gender_name: 'Female',
 		},
 	});
+
 	const defaultManager = await prisma.user.upsert({
 		where: {
 			id: 1,
@@ -72,6 +73,7 @@ async function main() {
 			gender_id: 1,
 		},
 	});
+
 	const defaultEmployee = await prisma.user.upsert({
 		where: {
 			id: 2,
@@ -87,6 +89,7 @@ async function main() {
 			gender_id: 1,
 		},
 	});
+
 	const defaultCustomer = await prisma.user.upsert({
 		where: {
 			id: 3,
@@ -113,6 +116,7 @@ async function main() {
 			name: 'Graduation',
 		},
 	});
+
 	const addition = await prisma.product_Category.upsert({
 		where: {
 			id: 2,
@@ -124,6 +128,7 @@ async function main() {
 			parent_id: 1,
 		},
 	});
+
 	const people = await prisma.product_Category.upsert({
 		where: {
 			id: 3,
@@ -148,6 +153,7 @@ async function main() {
 			product_price: 450000,
 		},
 	});
+
 	const silverLaminating = await prisma.product.upsert({
 		where: {
 			id: 2,
@@ -160,6 +166,7 @@ async function main() {
 			product_price: 650000,
 		},
 	});
+
 	const goldLaminating = await prisma.product.upsert({
 		where: {
 			id: 3,
@@ -172,6 +179,7 @@ async function main() {
 			product_price: 800000,
 		},
 	});
+
 	const platinumLaminating = await prisma.product.upsert({
 		where: {
 			id: 4,
