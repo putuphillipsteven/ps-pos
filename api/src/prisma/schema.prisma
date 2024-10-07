@@ -106,12 +106,12 @@ model Product_Image {
 }
 
 model Product_Category {
-  id                    Int                @id @default(autoincrement())
-  product_category_name String
-  parent                Product_Category?  @relation("ParentCategory", fields: [parent_id], references: [id])
-  parent_id             Int?
-  subcategories         Product_Category[] @relation("ParentCategory")
-  products              Product[]
+  id            Int                @id @default(autoincrement())
+  name          String             @default("Product Category")
+  parent        Product_Category?  @relation("ParentCategory", fields: [parent_id], references: [id])
+  parent_id     Int?
+  subcategories Product_Category[] @relation("ParentCategory")
+  products      Product[]
 }
 
 model Branch {

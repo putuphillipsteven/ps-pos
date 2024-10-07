@@ -14,6 +14,16 @@ export class ProductCategoryRepository implements IProductCategoryRepository {
 	constructor() {
 		this.prisma = new PrismaClient();
 	}
+	async createProductCategory(
+		args: CreateProductCategoryProps,
+	): Promise<ProductCategory | undefined> {
+		try {
+			const res = await this.prisma.product_Category.create({ data: args });
+			return res;
+		} catch (error) {
+			throw error;
+		}
+	}
 	async getProductCategory(): Promise<GetProductCategoryReturnProps | undefined> {
 		try {
 			const results = await this.prisma.product_Category.findMany({
@@ -21,18 +31,21 @@ export class ProductCategoryRepository implements IProductCategoryRepository {
 					parent: true,
 				},
 			});
+			console.log('results: ', results);
+			return {
+				data: results,
+			};
 
-			// Fix typo and properly initialize the accumulator (result)
 			const groupedCategories = results.reduce((result: any, item) => {
-				const parentName = item?.parent?.product_category_name;
-				const parentId = item?.parent?.id;
+				const parentName = item?.parent?.name;
+				const parentId = item?.parent?.parent_id;
 
 				if (parentName && !result[parentName]) {
 					result[parentName] = { name: parentName, id: parentId, category: [] };
 				}
 
 				if (parentName) {
-					result[parentName].category.push({ id: item.id, name: item.product_category_name });
+					result[parentName].category.push({ id: item.id, name: item.name });
 				}
 				return result;
 			}, {});
@@ -45,16 +58,7 @@ export class ProductCategoryRepository implements IProductCategoryRepository {
 			throw error;
 		}
 	}
-	async createProductCategory(
-		args: CreateProductCategoryProps,
-	): Promise<ProductCategory | undefined> {
-		try {
-			const res = await this.prisma.product_Category.create({ data: args });
-			return res;
-		} catch (error) {
-			throw error;
-		}
-	}
+
 	async updateProductCategory(
 		args: UpdateProductCategoryProps,
 	): Promise<Product_Category | undefined> {

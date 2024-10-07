@@ -110,9 +110,32 @@ async function main() {
 		update: {},
 		create: {
 			id: 1,
-			product_category_name: 'Graduation',
+			name: 'Graduation',
 		},
 	});
+	const addition = await prisma.product_Category.upsert({
+		where: {
+			id: 2,
+		},
+		update: {},
+		create: {
+			id: 2,
+			name: 'Addition',
+			parent_id: 1,
+		},
+	});
+	const people = await prisma.product_Category.upsert({
+		where: {
+			id: 3,
+		},
+		update: {},
+		create: {
+			id: 3,
+			name: 'People',
+			parent_id: 2,
+		},
+	});
+
 	const bronzeLaminating = await prisma.product.upsert({
 		where: {
 			id: 1,
