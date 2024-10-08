@@ -1,17 +1,5 @@
-import {
-	Box,
-	Button,
-	Flex,
-	Icon,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
-	useTheme,
-} from '@chakra-ui/react';
+import { Flex, Icon, useTheme } from '@chakra-ui/react';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { ProfileModal } from '../../../features/dashboard/components/profile-modal';
-import { IoChevronDownCircleOutline } from 'react-icons/io5';
 import SignInModal from './sign-in-modal';
 interface NavBarProps {
 	toggleSideNavDisplay: VoidFunction;
