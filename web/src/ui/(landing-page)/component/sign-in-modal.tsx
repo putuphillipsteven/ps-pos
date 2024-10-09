@@ -28,15 +28,19 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../../utils/redux/reducer/auth-reducer';
 import { AppDispatch } from '../../../utils/redux/store';
 import { useNavigate } from 'react-router-dom';
+import SuccessToast from '../../component/success-toast';
+import ErrorToast from '../../component/error-toast';
 
 export default function SignInModal() {
 	const [showPassword, setShowPassword] = useState(false);
 	const toast = useToast();
-	const { isOpen, onOpen, onClose } = useDisclosure();
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
 	const theme = useTheme();
+	const { isOpen, onOpen, onClose } = useDisclosure();
 	const formik = useFormik({
+		validateOnChange: true,
+		validateOnBlur: true,
 		initialValues: {
 			email: '',
 			password: '',
@@ -44,23 +48,11 @@ export default function SignInModal() {
 		validationSchema: SIGNINSCHEMA,
 		onSubmit: async (values, { resetForm }) => {
 			try {
-				const dispatchLogin = await dispatch(login(values));
+				await dispatch(login(values));
 				toast({
 					duration: 2000,
 					position: 'bottom',
-					render: () => (
-						<Box
-							borderRadius={'lg'}
-							bgColor={`${theme.colors.success}`}
-							border={`2px solid ${theme.colors.primary}`}
-							shadow={`0 4px 0 ${theme.colors.primary}`}
-							p={'.5em 1em'}
-						>
-							<Text fontWeight={'bold'} color={`${theme.colors.background}`}>
-								Login Success
-							</Text>
-						</Box>
-					),
+					render: () => <SuccessToast message='Login Success' />,
 				});
 				navigate('/dashboard');
 				resetForm({ values: { email: '', password: '' } });
@@ -69,19 +61,7 @@ export default function SignInModal() {
 				toast({
 					duration: 2000,
 					position: 'bottom',
-					render: () => (
-						<Box
-							borderRadius={'lg'}
-							bgColor={`${theme.colors.destructive}`}
-							border={`2px solid ${theme.colors.primary}`}
-							shadow={`0 4px 0 ${theme.colors.primary}`}
-							p={'.5em 1em'}
-						>
-							<Text fontWeight={'bold'} color={`${theme.colors.background}`}>
-								{ERRORMESSAGE}
-							</Text>
-						</Box>
-					),
+					render: () => <ErrorToast message={ERRORMESSAGE} />,
 				});
 			}
 		},
@@ -115,15 +95,29 @@ export default function SignInModal() {
 									type='email'
 									value={formik.values.email}
 									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
 									w={'100%'}
+									_hover={'none'}
 									focusBorderColor={`${theme.colors.primary}`}
 									_invalid={{
 										bgColor: theme.colors.background,
 										border: `2px solid ${theme.colors.destructive}`,
 										shadow: `0 6px 0 ${theme.colors.destructive}`,
 									}}
-									border={`2px solid ${theme.colors.input}`}
-									shadow={`0 6px 0 ${theme.colors.input}`}
+									border={`2px solid ${
+										formik.touched.email && formik.values.email
+											? formik.errors.email
+												? theme.colors.destructive
+												: theme.colors.success
+											: theme.colors.input
+									}`}
+									shadow={`0 6px 0 ${
+										formik.touched.email && formik.values.email
+											? formik.errors.email
+												? theme.colors.destructive
+												: theme.colors.success
+											: theme.colors.input
+									}`}
 									_focus={{
 										bgColor: theme.colors.background,
 										border: `2px solid ${theme.colors.primary}`,
@@ -141,17 +135,36 @@ export default function SignInModal() {
 										name='password'
 										placeholder='Enter your password...'
 										w={'100%'}
+										_hover={'none'}
 										type={showPassword ? 'text' : 'password'}
 										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
 										value={formik.values.password}
+										_valid={{
+											bgColor: theme.colors.background,
+											border: `2px solid ${theme.colors.success}`,
+											shadow: `0 6px 0 ${theme.colors.success}`,
+										}}
 										_invalid={{
 											bgColor: theme.colors.background,
 											border: `2px solid ${theme.colors.destructive}`,
 											shadow: `0 6px 0 ${theme.colors.destructive}`,
 										}}
 										focusBorderColor={`${theme.colors.primary}`}
-										border={`2px solid ${theme.colors.input}`}
-										shadow={`0 6px 0 ${theme.colors.input}`}
+										border={`2px solid ${
+											formik.touched.password && formik.values.password
+												? formik.errors.password
+													? theme.colors.destructive
+													: theme.colors.success
+												: theme.colors.input
+										}`}
+										shadow={`0 6px 0 ${
+											formik.touched.password && formik.values.password
+												? formik.errors.password
+													? theme.colors.destructive
+													: theme.colors.success
+												: theme.colors.input
+										}`}
 										_focus={{
 											bgColor: theme.colors.background,
 											border: `2px solid ${theme.colors.primary}`,
@@ -176,7 +189,6 @@ export default function SignInModal() {
 										</Button>
 									</InputRightElement>
 								</InputGroup>
-
 								{formik.touched.password && formik.errors.password && (
 									<FormErrorMessage>{formik.errors.password}</FormErrorMessage>
 								)}
@@ -208,7 +220,6 @@ export default function SignInModal() {
 						</VStack>
 					</form>
 					<ModalCloseButton />
-					<ModalFooter></ModalFooter>
 				</ModalContent>
 			</Modal>
 		</>
