@@ -88,7 +88,9 @@ export default function SignInModal() {
 					<form onSubmit={formik.handleSubmit}>
 						<VStack px={'1em'} align={'stretch'} spacing={'1em'}>
 							<FormControl isInvalid={!!(formik.touched.email && formik.errors.email)}>
-								<FormLabel>Email</FormLabel>
+								<FormLabel w={'fit-content'} _hover={{ cursor: 'pointer' }}>
+									Email
+								</FormLabel>
 								<Input
 									name='email'
 									placeholder='Enter your email...'
@@ -129,7 +131,9 @@ export default function SignInModal() {
 								)}
 							</FormControl>
 							<FormControl isInvalid={!!(formik.touched.password && formik.errors.password)}>
-								<FormLabel>Password</FormLabel>
+								<FormLabel w={'fit-content'} _hover={{ cursor: 'pointer' }}>
+									Password
+								</FormLabel>
 								<InputGroup position={'relative'}>
 									<Input
 										name='password'
@@ -220,6 +224,7 @@ export default function SignInModal() {
 						</VStack>
 					</form>
 					<ModalCloseButton />
+					<ModalFooter></ModalFooter>
 				</ModalContent>
 			</Modal>
 		</>
