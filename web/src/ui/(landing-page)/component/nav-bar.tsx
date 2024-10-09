@@ -1,11 +1,10 @@
-import { Flex, Icon, useTheme } from '@chakra-ui/react';
+import { Flex, Icon } from '@chakra-ui/react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import SignInModal from './sign-in-modal';
 interface NavBarProps {
 	toggleSideNavDisplay: VoidFunction;
 }
 export default function NavBar({ toggleSideNavDisplay }: NavBarProps) {
-	const theme = useTheme();
 	return (
 		<Flex
 			w={'100%'}

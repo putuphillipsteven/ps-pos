@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import { ChakraProvider, Text } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import {
 	Route,
 	RouterProvider,
@@ -11,6 +11,8 @@ import MainReport from './features/report/main-report.tsx';
 import MainTransaction from './features/report/components/main-transaction.tsx';
 import LandingPage from './ui/(landing-page)/landing-page.tsx';
 import Dashboard from './dashboard.tsx';
+import { Provider } from 'react-redux';
+import { store } from './utils/redux/store.ts';
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -26,7 +28,10 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-	<ChakraProvider theme={theme}>
-		<RouterProvider router={router} />
-	</ChakraProvider>,
+	<Provider store={store}>
+		<ChakraProvider theme={theme}>
+			<RouterProvider router={router} />
+		</ChakraProvider>
+		,
+	</Provider>,
 );

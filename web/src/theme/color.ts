@@ -108,7 +108,7 @@ export const colors = {
 	border: '#E5E5E5',
 	input: '#E5E5E5',
 	ring: '#181818',
-	link: '007BFF',
-	success: '28A745',
-	warning: 'E8634D',
+	link: '#007BFF',
+	success: '#28A745',
+	warning: '#E8634D',
 };
