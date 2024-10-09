@@ -45,8 +45,23 @@ export default function SignInModal() {
 		onSubmit: async (values, { resetForm }) => {
 			try {
 				const dispatchLogin = await dispatch(login(values));
-				console.log('dispatchLogin', dispatchLogin);
-				console.log('LOGIN SUCCESS');
+				toast({
+					duration: 2000,
+					position: 'bottom',
+					render: () => (
+						<Box
+							borderRadius={'lg'}
+							bgColor={`${theme.colors.success}`}
+							border={`2px solid ${theme.colors.primary}`}
+							shadow={`0 4px 0 ${theme.colors.primary}`}
+							p={'.5em 1em'}
+						>
+							<Text fontWeight={'bold'} color={`${theme.colors.background}`}>
+								Login Success
+							</Text>
+						</Box>
+					),
+				});
 				navigate('/dashboard');
 				resetForm({ values: { email: '', password: '' } });
 			} catch (error: any) {
